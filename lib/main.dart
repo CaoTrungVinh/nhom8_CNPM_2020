@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MyAppChat()),
+                    MaterialPageRoute(builder: (context) => ChatScreen()),
                   );
                 },
                 child: Text(
@@ -108,220 +109,294 @@ class Setting extends StatelessWidget {
 
 const String _name = "Vĩnh";
 
-class MyAppChat extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: "Friendlychat",
-
-      home: new ChatScreen(),
-    );
-  }
-}
-
 class ChatScreen extends StatefulWidget {
   //modified
   @override //new
   State createState() => new ChatScreenState(); //new
 }
 
+class Message {
+  final int id;
+  final bool isMy;
+  final DateTime createdAt;
+  final String content;
+
+  Message({
+    this.isMy,
+    this.id,
+    this.createdAt,
+    this.content,
+  });
+}
+
 // Add the ChatScreenState class definition in main.dart.
 class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
-  final List<ChatMessage> _messages = <ChatMessage>[];
-  final TextEditingController _textController = new TextEditingController();
-  bool _isComposing = false;
-  ScrollController _controller;
+  final List<Message> _messages = <Message>[
+    Message(
+      id: 0,
+      isMy: false,
+      createdAt: DateTime.now(),
+      content: "A",
+    ),
+    Message(
+      id: 1,
+      isMy: true,
+      createdAt: DateTime.now(),
+      content: "hello",
+    ),
+  ];
+  TextEditingController _textController;
+  String _text;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _textController = TextEditingController();
+  }
 
   @override
   void dispose() {
-    for (ChatMessage message in _messages)
-      message.animationController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
   @override
-  void initState() {
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
-    super.initState();
-  }
-
-  _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
-        !_controller.position.outOfRange) {
-      //"reach the bottom"
-      setState(() {});
-    }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
-        !_controller.position.outOfRange) {
-      // "reach the top";
-      setState(() {});
-    }
-  }
-
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(width: 1.0, color: Colors.black38),
-      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-    );
-  }
-
-  Widget _buildTextInput() => Container(
-        margin: const EdgeInsets.all(8.0),
-        padding: const EdgeInsets.only(left: 8.0),
-        decoration: myBoxDecoration(),
-        child: new Row(
-          children: <Widget>[
-            new Flexible(
-              child: new TextField(
-                controller: _textController,
-                onChanged: (String text) {
-                  setState(() {
-                    _isComposing = text.length > 0;
-                  });
-                },
-                keyboardType: TextInputType.multiline,
-                maxLines: 10,
-                minLines: 1,
-                decoration:
-                    new InputDecoration.collapsed(hintText: "Nhập tin nhắn"),
-              ),
-            ),
-            new Container(
-              child: new IconButton(
-                  icon: new Icon(Icons.send),
-                  onPressed: _isComposing
-                      ? () => _handleSubmitted(_textController.text)
-                      : null),
-            ),
-          ],
-        ),
-      );
-
-  Widget _buildTextComposer() {
-    return new IconTheme(
-      data: IconThemeData(color: Theme.of(context).accentColor),
-      child: new Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: <Widget>[
-          new Container(
-            margin: const EdgeInsets.only(bottom: 8.0),
-            child: new IconButton(
-                icon: new Icon(Icons.mic),
-                onPressed: () => _handleTouchOnMic()),
-          ),
-
-          Expanded(
-            child: _buildTextInput(),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _handleSubmitted(String text) {
-    _textController.clear();
-    setState(() {
-      _isComposing = false;
-    });
-    if (text.length > 0) {
-      ChatMessage message = new ChatMessage(
-        text: text,
-        animationController: new AnimationController(
-          duration: new Duration(milliseconds: 700),
-          vsync: this,
-        ),
-      );
-      setState(() {
-        _messages.insert(0, message);
-      });
-      message.animationController.forward();
-    }
-  }
-
-  void _handleTouchOnMic() {}
-
-
-  @override //new
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(backgroundColor: const Color(0xff00DFEE),
-        actions: [
-          new IconButton(
-            icon: new Icon(
-              Icons.arrow_back,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MyApp()),
-              );
-            },
-          )
-        ],
-        title: new Text('Nói chuyện'),
-      ),
-
-      body: new Column(
-        children: <Widget>[
-          new Flexible(
-            child: new ListView.builder(
-              controller: _controller,
-              padding: new EdgeInsets.all(8.0),
-              reverse: true,
-              itemBuilder: (_, int index) => _messages[index],
-              itemCount: _messages.length,
-            ),
-          ),
-          // new Divider(height: 1.0),
-          new Container(
-            decoration: new BoxDecoration(color: Theme.of(context).cardColor),
-            child: SafeArea(
-              bottom: true,
-              child: _buildTextComposer(),
-            ),
-          ),
-        ],
-      ),
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: _buildBody(context),
     );
   }
-}
 
-class ChatMessage extends StatelessWidget {
-  ChatMessage({this.text, this.animationController}); //modified
-  final String text;
-  final AnimationController animationController;
+  Widget _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      automaticallyImplyLeading: false,
+      elevation: 0,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Color(0xff2E3A59),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: Text(
+        'Liên hệ',
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.black,
+        ),
+      ),
+      centerTitle: true,
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return new SizeTransition(
-      sizeFactor: new CurvedAnimation(
-          parent: animationController, curve: Curves.easeOut),
-      axisAlignment: 0.0,
-      child: new Container(
-        margin: const EdgeInsets.symmetric(vertical: 10.0),
-        child: new Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            new Container(
-              margin: const EdgeInsets.only(left: 40.0),
-//              color: const Color(0xff00DFEE),
-              child: new CircleAvatar(child: new Text(_name[0])),
-            ),
-            new Column(
+  Widget _buildBody(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Divider(
+          thickness: 1,
+          color: Color(0xffE4E9F2),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-//                color: const Color(0xff00DFEE),
-//                new Text(_name, style: Theme.of(context).textTheme.subhead),
-                new Container(
-                  margin: const EdgeInsets.only(left: 10.0),
-                  child: new Text(text),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _messages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final message = _messages[_messages.length - index - 1];
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: message.isMy
+                            ? _buildMyMessage(context, message)
+                            : _buildTheirMessage(context, message),
+                      );
+                    },
+                    reverse: true,
+                    padding: const EdgeInsets.all(0),
+                  ),
+                ),
+                SizedBox(height: 16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    GestureDetector(
+                      child: Icon(
+                        Icons.mic,
+                        color: Color(0xff1654B4),
+                      ),
+                      onTap: () async {},
+                    ),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: TextFormField(
+                        textInputAction: TextInputAction.done,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide(
+                              color: Color(0xffE4E9F2),
+                              width: 1,
+                            ),
+                          ),
+                          hintText: 'Nhập nội dung...',
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            color: Color(0xff8F9BB3),
+                          ),
+                          suffixIcon: GestureDetector(
+                            child: new Icon(Icons.send),
+                            onTap: _text != null && _text.isNotEmpty
+                                ? () => onSubmit()
+                                : null,
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xff000000),
+                        ),
+                        cursorColor: Color(0xffE4E9F2),
+                        maxLines: 3,
+                        minLines: 1,
+                        controller: _textController,
+                        onChanged: (value) => setState(() {
+                          _text = value;
+                        }),
+                        onFieldSubmitted: (val) => onSubmit(),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMyMessage(BuildContext context, Message message) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Text(
+          DateFormat('dd/MM/yyyy HH:mm').format(message.createdAt),
+          style: TextStyle(
+            fontSize: 12,
+          ),
+        ),
+        SizedBox(height: 4),
+        Row(
+          children: <Widget>[
+            Expanded(child: SizedBox(width: 60)),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Color(0xffF0F5FF),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                message.content,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xff000000),
+                ),
+              ),
+              constraints: BoxConstraints(
+                minHeight: 40,
+                minWidth: 40,
+                maxWidth: MediaQuery.of(context).size.width - 60,
+              ),
+            ),
           ],
         ),
-      ),
+      ],
     );
+  }
+
+  Widget _buildTheirMessage(BuildContext context, Message message) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        CircleAvatar(
+          backgroundImage: NetworkImage(
+            'https://api.adorable.io/avatars/285/abott@adorable.png',
+          ),
+          radius: 18,
+        ),
+        SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                DateFormat('dd/MM/yyyy HH:mm').format(message.createdAt),
+                style: TextStyle(
+                  fontSize: 12,
+                ),
+              ),
+              SizedBox(height: 4),
+              Row(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      border: Border.all(
+                        color: Color(0xffE0E0E0),
+                        width: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      message.content,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Color(0xff000000),
+                      ),
+                    ),
+                    constraints: BoxConstraints(
+                      minHeight: 40,
+                      minWidth: 40,
+                      maxWidth: MediaQuery.of(context).size.width - 60,
+                    ),
+                  ),
+                  Expanded(child: SizedBox(width: 60)),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  void onSubmit() {
+    if (_text != null && _text.isNotEmpty) {
+      setState(() {
+        _messages.add(Message(
+          content: _textController.text,
+          isMy: true,
+          createdAt: DateTime.now(),
+        ));
+        _text = null;
+        _textController.clear();
+      });
+    }
   }
 }
