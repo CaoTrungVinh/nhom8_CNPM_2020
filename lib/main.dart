@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 void main() {
@@ -15,13 +18,20 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
         home: new Scaffold(
       appBar: new AppBar(
-        title: new Text("PoroPoro"),
-        backgroundColor: const Color(0xff00DFEE),
+        title: Text(
+          'PoroPoro',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+
+        backgroundColor: Colors.white,
         actions: [
 //            new ListTile( title: new Text("Cài đặt",),),
           new IconButton(
             icon: new Icon(
-              Icons.settings,
+              Icons.settings, color: Colors.black,
             ),
             onPressed: () {
               Navigator.push(
@@ -60,23 +70,21 @@ class MyApp extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  "Nói chuyện",
-                  style: TextStyle(fontSize: 20.0),
+                  'Nói chuyện',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               new FlatButton(
-//                        color: Colors.blue,
-//                        textColor: Colors.white,
-//                        disabledColor: Colors.grey,
-//                        disabledTextColor: Colors.black,
-//                        padding: EdgeInsets.all(8.0),
-//                        splashColor: Colors.blueAccent,
-                onPressed: () {
-                  /*...*/
-                },
+                onPressed: ()=> SystemNavigator.pop(),
                 child: Text(
-                  "Thoát",
-                  style: TextStyle(fontSize: 20.0),
+                  'Thoát',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
                 ),
               )
             ],
@@ -92,8 +100,24 @@ class Setting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cài đặt"),
-        backgroundColor: const Color(0xff00DFEE),
+        title: Text(
+          'Cài đặt',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xff2E3A59),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
 //        child: RaisedButton(
@@ -184,7 +208,7 @@ class ChatScreenState extends State<ChatScreen> with TickerProviderStateMixin {
         },
       ),
       title: Text(
-        'Liên hệ',
+        'Nói chuyện',
         style: TextStyle(
           fontSize: 15,
           color: Colors.black,
