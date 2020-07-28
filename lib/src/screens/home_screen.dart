@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:appchat/src/screens/chat.dart';
+import 'package:appchat/src/screens/chat_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'setting.dart';
+import 'setting_screen.dart';
 
-class SecondScreen extends StatelessWidget {
+class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
