@@ -96,7 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   _audioStream = microphone(
                     audioSource: AudioSource.DEFAULT,
                     sampleRate: 16000,
-                    channelConfig: ChannelConfig.CHANNEL_IN_STEREO,
+                    channelConfig: ChannelConfig.CHANNEL_IN_MONO,
                     audioFormat: AudioFormat.ENCODING_PCM_16BIT,
                   );
 
