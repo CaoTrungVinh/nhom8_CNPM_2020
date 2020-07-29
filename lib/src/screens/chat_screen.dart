@@ -355,7 +355,7 @@ class _ChatScreenState extends State<ChatScreen> {
         print('yield start');
         await for (List<int> data in _audioStream) {
           if (_isRecording) {
-            print('yield data');
+            print('data: $data');
             yield AssistRequest()..audioIn = data;
           } else {
             break;

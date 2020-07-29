@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'src/screens/splash.dart';
+import 'src/screens/splash_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
