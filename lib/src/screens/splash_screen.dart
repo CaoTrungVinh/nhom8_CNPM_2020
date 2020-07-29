@@ -38,7 +38,7 @@ class StartState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: Image.asset("images/logo1.png"),
+              child: Image.asset("assets/images/logo1.png"),
             ),
             Padding(padding: EdgeInsets.only(top: 20.0)),
             Text(

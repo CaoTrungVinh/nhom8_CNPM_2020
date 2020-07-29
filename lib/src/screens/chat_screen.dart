@@ -6,14 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grpc/grpc.dart';
 import 'package:intl/intl.dart';
-import 'package:mic_stream/mic_stream.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
-import '../models/generated/google/assistant/embedded/v1alpha2/embedded_assistant.pbgrpc.dart';
+import '../models/generated/google/assistant/embedded/v1alpha2/embedded_assistant.pbgrpc.dart'
+    hide SpeechRecognitionResult;
 import '../models/message.dart';
 
 class ChatScreen extends StatefulWidget {
-  static const routeName = '/chat_screen';
-
   const ChatScreen({
     Key key,
   }) : super(key: key);
@@ -27,10 +27,11 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Message> _messages = []; // ds tin nhắn
   TextEditingController
       _controller; //controller của text editor nhập chữ bằng ban phím, lấy ra text nhập
-  EmbeddedAssistantClient _assistant; //
-  Stream<List<int>> _audioStream;
-  bool _isRecording = false;
-  List<int> _lastConversationState;
+  EmbeddedAssistantClient _assistant; // model of google
+  List<int>
+      _lastConversationState; // conversationState của câu trả lời trước đó.
+  SpeechToText _speech = SpeechToText();
+  bool _isInitializing;
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +50,25 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
+    _isInitializing = true;
     _controller = TextEditingController();
-    _initGoogleAssistant();
+    _init();
+  }
+
+  void _init() async {
+    await _initGoogleAssistant();
+    await _speech.initialize();
+    setState(() {
+      _isInitializing = false;
+    });
+  }
+
+  void _addMessage(Message message) {
+    setState(() {
+      _messages.add(message);
+    });
+
+    //TODO: Lưu _messages xuống local storage
   }
 
   Widget _buildAppBar(BuildContext context) {
@@ -61,6 +79,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
+    if (_isInitializing) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16, bottom: 24),
       child: Column(
@@ -92,22 +116,18 @@ class _ChatScreenState extends State<ChatScreen> {
                   Icons.mic,
                   color: Color(0xff1654B4),
                 ),
-                onLongPress: () {
-                  _audioStream = microphone(
-                    audioSource: AudioSource.DEFAULT,
-                    sampleRate: 16000,
-                    channelConfig: ChannelConfig.CHANNEL_IN_MONO,
-                    audioFormat: AudioFormat.ENCODING_PCM_16BIT,
-                  );
-
-                  print("Start Listening to the microphone");
-                  _isRecording = true;
-                  final conversation = _sendAudioMessage();
-                  _handleAssistResponse(conversation);
-                },
-                onLongPressEnd: (details) {
-                  _isRecording = false;
-                  _audioStream = null;
+                onTap: () async {
+                  if (!_speech.isListening) {
+                    await _speech.listen(
+                      onResult: _onTextReg,
+                      listenFor: Duration(seconds: 10),
+                      localeId: "vi-VN",
+                      cancelOnError: true,
+                      partialResults: false,
+                      onDevice: true,
+                      listenMode: ListenMode.confirmation,
+                    );
+                  }
                 },
               ),
               SizedBox(width: 16),
@@ -200,9 +220,7 @@ class _ChatScreenState extends State<ChatScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: NetworkImage(
-            'https://api.adorable.io/avatars/285/abott@adorable.png',
-          ),
+          backgroundImage: AssetImage('assets/images/logo_chat.png'),
           radius: 18,
         ),
         SizedBox(width: 8),
@@ -251,7 +269,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  AssistRequest _createAssistRequest([String text]) {
+  AssistRequest _createAssistRequest(String text) {
     final audioOutConfig = AudioOutConfig()
       ..encoding = AudioOutConfig_Encoding.MP3
       ..sampleRateHertz = 24000
@@ -266,22 +284,12 @@ class _ChatScreenState extends State<ChatScreen> {
       dialogStateIn.conversationState = _lastConversationState;
     }
 
-    final DebugConfig debugConfig = DebugConfig()..returnDebugInfo = true;
-
     final config = AssistConfig()
       ..audioOutConfig = audioOutConfig
       ..deviceConfig = deviceConfig
-      ..dialogStateIn = dialogStateIn
-      ..debugConfig = debugConfig;
+      ..dialogStateIn = dialogStateIn;
 
-    if (text == null) {
-      final audioInConfig = AudioInConfig()
-        ..encoding = AudioInConfig_Encoding.LINEAR16
-        ..sampleRateHertz = 16000;
-      config.audioInConfig = audioInConfig;
-    } else {
-      config.textQuery = text;
-    }
+    config.textQuery = text;
 
     final request = AssistRequest()..config = config;
     return request;
@@ -293,16 +301,17 @@ class _ChatScreenState extends State<ChatScreen> {
     await conversation.forEach((response) {
       print(response.eventType);
       print(response.audioOut);
-      print(response.screenOut);
-      print(response.deviceAction);
-      print(response.speechResults);
-      print(response.dialogStateOut);
+      print(response.screenOut); // đoạn html của dữ liệu trả về
+      print(response.deviceAction); // dieu khien thiet bi
+      print(response.speechResults); // text in speech to text
+      print(response.dialogStateOut); // co chua text maf gg tra ve
       print(response.debugInfo);
       audioData.addAll(response.audioOut.audioData);
       if (response.dialogStateOut != null) {
         if (response.dialogStateOut.conversationState != null) {
           _lastConversationState = response.dialogStateOut.conversationState;
         }
+        // supplementalDisplayText du lieu text ma gg tra ve
         if (response.dialogStateOut.supplementalDisplayText != null &&
             response.dialogStateOut.supplementalDisplayText.isNotEmpty) {
           _addMessage(Message(
@@ -313,7 +322,7 @@ class _ChatScreenState extends State<ChatScreen> {
         }
       }
     });
-
+    // phat audio gg tra ve
     if (audioData.length > 0) {
       Audio.loadFromByteData(
           ByteData.sublistView(Uint8List.fromList(audioData)))
@@ -322,15 +331,7 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  void _addMessage(Message message) {
-    setState(() {
-      _messages.add(message);
-    });
-
-    //TODO: Lưu _messages xuống local storage
-  }
-
-  void _initGoogleAssistant() async {
+  Future<void> _initGoogleAssistant() async {
     final scopes = [
       'https://www.googleapis.com/auth/assistant-sdk-prototype',
     ];
@@ -348,25 +349,16 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  Stream<AssistResponse> _sendAudioMessage() {
-    if (_audioStream != null) {
-      Stream<AssistRequest> stream(Stream<List<int>> _audioStream) async* {
-        yield _createAssistRequest(null);
-        print('yield start');
-        await for (List<int> data in _audioStream) {
-          if (_isRecording) {
-            print('data: $data');
-            yield AssistRequest()..audioIn = data;
-          } else {
-            break;
-          }
-        }
-      }
-
-      return _assistant.assist(stream(_audioStream));
-    }
-
-    return null;
+  void _onTextReg(SpeechRecognitionResult result) {
+    print(result.recognizedWords);
+    _addMessage(Message(
+      isMine: true,
+      content: result.recognizedWords,
+      createdAt: DateTime.now(),
+    ));
+    final request = _createAssistRequest(result.recognizedWords);
+    final conversation = _assistant.assist(Stream.value(request));
+    _handleAssistResponse(conversation);
   }
 
   Stream<AssistResponse> _sendTextMessage() {
