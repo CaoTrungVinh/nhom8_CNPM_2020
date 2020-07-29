@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class SettingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MySettingState();
   }
 }
@@ -12,7 +11,6 @@ class SettingScreen extends StatefulWidget {
 class _MySettingState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

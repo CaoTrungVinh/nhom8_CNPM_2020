@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:audiofileplayer/audiofileplayer.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grpc/grpc.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -57,18 +60,33 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _init() async {
     await _initGoogleAssistant();
-    await _speech.initialize();
+    await _speech.initialize(onError: showError);
+    await showMess();
+
     setState(() {
       _isInitializing = false;
     });
   }
 
-  void _addMessage(Message message) {
+  Future showMess() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final messageData = prefs.getString("messages");
+    if (messageData != null && messageData.isNotEmpty) {
+      final messages = jsonDecode(messageData) as List;
+      for (var mess in messages) {
+        _messages.add(Message.fromJson(mess));
+      }
+    }
+  }
+
+  Future<void> _addMessage(Message message) async {
     setState(() {
       _messages.add(message);
     });
-
-    //TODO: Lưu _messages xuống local storage
+    // save mess local
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+        "messages", jsonEncode(_messages.map((m) => m.toJson()).toList()));
   }
 
   Widget _buildAppBar(BuildContext context) {
@@ -323,6 +341,10 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     });
     // phat audio gg tra ve
+    playAudio(audioData);
+  }
+
+  void playAudio(List<int> audioData) {
     if (audioData.length > 0) {
       Audio.loadFromByteData(
           ByteData.sublistView(Uint8List.fromList(audioData)))
@@ -378,5 +400,13 @@ class _ChatScreenState extends State<ChatScreen> {
       }
     }
     return null;
+  }
+
+  void showError(SpeechRecognitionError errorNotification) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(errorNotification.errorMsg),
+      ),
+    );
   }
 }
