@@ -52,6 +52,16 @@ class HomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               new FlatButton(
+//                child: Icon(Icons.star, color: Colors.red[500]),
+                child: Text(
+                  'Đăng nhập',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              new FlatButton(
                 onPressed: () {
                   Navigator.push(
                     context,
