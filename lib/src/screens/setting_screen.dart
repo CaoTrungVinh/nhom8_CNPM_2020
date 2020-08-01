@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
-class Setting extends StatefulWidget {
+class SettingScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return _MySettingState();
   }
 }
 
 //hàm build
-class _MySettingState extends State<Setting> {
+class _MySettingState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -39,7 +37,8 @@ class _MySettingState extends State<Setting> {
           minimum: EdgeInsets.only(left: 20, right: 20),
           child: new Column(
             children: [
-//              Text('data')
+              Text('Ngôn ngữ: '),
+              Text("Tiếng Việt, English")
             ],
           ),
         ),

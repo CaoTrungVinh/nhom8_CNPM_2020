@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'second_screen.dart';
+import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,7 +14,6 @@ class StartState extends State<SplashScreen> {
     return initScreen(context);
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -22,19 +21,16 @@ class StartState extends State<SplashScreen> {
   }
 
   startTimer() async {
-    var duration = Duration(seconds: 5);
+    var duration = Duration(seconds: 1);
     return new Timer(duration, route);
   }
 
   route() {
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => SecondScreen()
-    )
-    );
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   initScreen(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -42,15 +38,12 @@ class StartState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: Image.asset("images/logo1.png"),
+              child: Image.asset("assets/images/logo1.png"),
             ),
             Padding(padding: EdgeInsets.only(top: 20.0)),
             Text(
               "PoroPoro",
-              style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black
-              ),
+              style: TextStyle(fontSize: 20.0, color: Colors.black),
             ),
             Padding(padding: EdgeInsets.only(top: 20.0)),
             CircularProgressIndicator(
