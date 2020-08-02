@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
+
 bool checkNMK = false;
+bool _showPass = false;
+TextEditingController _email = new TextEditingController();
+TextEditingController _pass = new TextEditingController();
+var _emailError = "Email không hợp lệ";
+var _passError = "Mật khẩu không đúng";
+var _emailEr = false;
+var _passEr = false;
+
 class LoginScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -73,84 +82,58 @@ class _loginScreen extends State<LoginScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
-                child: Stack(
-                  children: [
-                    Text("EMAIL",
-                        style: TextStyle(
-                          color: Color(0xff8F9BB3), fontSize: 14
-                        )),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 40,
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: Color(0xffE4E9F2),
-                                width: 1,
-                              ),
-                            ),
-                            hintText: 'Email...',
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff8F9BB3),
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 20),
+                child: TextField(
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  controller: _email,
+                  decoration: InputDecoration(
+                      icon: Icon(Icons.person),
+                    labelText: "Email",
+                      errorText: _emailEr ? _emailError : null,
+                    labelStyle: TextStyle(color: Color(0xff888888), fontSize: 15)
+                  ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                 child: Stack(
 //                  alignment: AlignmentDirectional.centerEnd,
                   children: [
-                    Text("MẬT KHẨU",
-                        style: TextStyle(
-                          color: Color(0xff8F9BB3), fontSize: 14
-                        )),
                     Container(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 40,
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(4),
-                              borderSide: BorderSide(
-                                color: Color(0xffE4E9F2),
-                                width: 1,
-                              ),
-                            ),
-                            hintText: '',
-                            hintStyle: TextStyle(
-                              fontSize: 14,
-                              color: Color(0xff8F9BB3),
-                            ),
-                          ),
+                      child: TextField(
+                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        controller: _pass,
+                        obscureText: _showPass,
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.vpn_key),
+                            labelText: "Mật khẩu",
+                            errorText: _passEr ? _passError : null,
+                            labelStyle: TextStyle(color: Color(0xff888888), fontSize: 15)
                         ),
                       ),
                     ),
-                    Container(
-                      alignment: AlignmentDirectional.centerEnd,
-                      padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
-                      child: Icon(Icons.remove_red_eye, color: Color(0xff8F9BB3)),
+                    GestureDetector(
+                      onTap: showPass,
+                      child: Container(
+                        alignment: AlignmentDirectional.centerEnd,
+                        padding: const EdgeInsets.fromLTRB(0, 30, 10, 0),
+                        child: _showPass
+                            ? Icon(Icons.remove_red_eye,
+                                color: Color(0xff8F9BB3))
+                            : Icon(Icons.remove_red_eye,
+                                color: Color(0xff8F9BB3)),
+//                        child: _showPass
+//                            ? Icon(Icons.remove_red_eye,
+//                                color: Color(0xff8F9BB3))
+//                            : Icon(Icons.remove_red_eye,
+//                                color: Color(0xff8F9BB3)),
+                      ),
                     )
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
+                padding: const EdgeInsets.fromLTRB(20, 10, 30, 0),
                 child: Stack(
 //                  mainAxisAlignment: MainAxisAlignment.start,
 //                  crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,13 +178,16 @@ class _loginScreen extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(50)),
                     child: Text(
                       "Quên mật khẩu?",
-                      style: TextStyle(color: Color(0xff4374C2), fontSize: 14,),
+                      style: TextStyle(
+                        color: Color(0xff4374C2),
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
+                padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                 child: Stack(
                   children: [
                     Center(
@@ -223,14 +209,15 @@ class _loginScreen extends State<LoginScreen> {
                     Container(
                       alignment: AlignmentDirectional.topEnd,
                       padding: const EdgeInsets.fromLTRB(0, 20, 50, 0),
-                      child: RaisedButton(
+                      child: OutlineButton(
                         color: Color(0xffffffff),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(8))),
                         onPressed: xuLyLogin,
                         child: Text(
                           "G",
-                          style: TextStyle(color: Color(0xffE93627), fontSize: 16),
+                          style:
+                              TextStyle(color: Color(0xffE93627), fontSize: 16),
                         ),
                       ),
                     )
@@ -243,6 +230,20 @@ class _loginScreen extends State<LoginScreen> {
       ),
     );
   }
-}
 
-void xuLyLogin() {}
+  void showPass() {
+    setState(() {
+      _showPass = !_showPass;
+    });
+  }
+
+  void xuLyLogin() {
+    setState(() {
+      if (_email .text.length < 6 || !_email.text.contains("@")){
+        _emailEr = true;
+      }else{
+        _emailEr = false;
+      }
+    });
+  }
+}
