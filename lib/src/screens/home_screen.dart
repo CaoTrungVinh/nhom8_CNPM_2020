@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'setting_screen.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -51,6 +52,22 @@ class HomeScreen extends StatelessWidget {
               child: new Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              new FlatButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                  );
+                },
+//                child: Icon(Icons.star, color: Colors.red[500]),
+                child: Text(
+                  'Đăng nhập',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
               new FlatButton(
                 onPressed: () {
                   Navigator.push(

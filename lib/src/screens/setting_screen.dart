@@ -37,7 +37,8 @@ class _MySettingState extends State<SettingScreen> {
           minimum: EdgeInsets.only(left: 20, right: 20),
           child: new Column(
             children: [
-//              Text('data')
+              Text('Ngôn ngữ: '),
+              Text("Tiếng Việt, English")
             ],
           ),
         ),
