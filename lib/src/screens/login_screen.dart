@@ -70,7 +70,38 @@ class _loginScreen extends State<LoginScreen> {
       );
     }
   }
-
+//them mot dialog hoi nguoi dung co muon dang xuat that hay khong
+Future<void> _showDialog(BuildContext context) async {
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Cảnh báo đăng xuất'),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('bạn có thực sự muốn đăng xuất khỏi phiên làm việc'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('Đồng ý'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            } ,
+          ),
+          FlatButton(
+            child: Text('Không'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
   Future<void> _handleSignIn() async {
     try {
       await _googleSignIn.signIn();
