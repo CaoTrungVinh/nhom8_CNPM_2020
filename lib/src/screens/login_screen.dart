@@ -50,7 +50,7 @@ class _loginScreen extends State<LoginScreen> {
             subtitle: Text(_currentUser.email ?? ''),
           ),
           RaisedButton(
-            onPressed: _handleSignOut,
+            onPressed: () => _showDialog(context),
             child: Text('SIGN OUT'),
           )
         ],
@@ -88,6 +88,7 @@ Future<void> _showDialog(BuildContext context) async {
           FlatButton(
             child: Text('Đồng ý'),
             onPressed: () {
+	_handleSignOut();
               Navigator.of(context).pop();
             } ,
           ),
