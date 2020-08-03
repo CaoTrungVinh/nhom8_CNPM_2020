@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "847208561066",
+    "firebase_url": "https://test-1a0bf.firebaseio.com",
+    "project_id": "test-1a0bf",
+    "storage_bucket": "test-1a0bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847208561066:android:39d96da6c2980b999cd3d3",
+        "android_client_info": {
+          "package_name": "com.myduyen.poro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847208561066-s146o4hkilnej545vv6e5dd0l43hvm0c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myduyen.poro",
+            "certificate_hash": "2bf422498720a21fb14ca36df91b1696f635afec"
+          }
+        },
+        {
+          "client_id": "847208561066-jabi7g65pe16gtanoi5966musa50if6q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMyON9yjnk1kJQiY3ToWNtBAgZNvmvRtY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847208561066-oo1rr1ri152a0lat2gkvnfrrdrgmbfg7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
