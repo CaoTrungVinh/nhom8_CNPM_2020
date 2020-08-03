@@ -11,9 +11,8 @@ import 'login_screen.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        home: new Scaffold(
-      appBar: new AppBar(
+    return Scaffold(
+      appBar: AppBar(
         title: Text(
           'PoroPoro',
           style: TextStyle(
@@ -23,9 +22,9 @@ class HomeScreen extends StatelessWidget {
         ),//title
         backgroundColor: Colors.white,
         actions: [
-//            new ListTile( title: new Text("Cài đặt",),),
-          new IconButton(
-            icon: new Icon(
+//             ListTile( title:  Text("Cài đặt",),),
+          IconButton(
+            icon: Icon(
               Icons.settings,
               color: Colors.black,
             ),
@@ -38,21 +37,21 @@ class HomeScreen extends StatelessWidget {
           )
         ],//actions
       ),
-      body: new Stack(
+      body: Stack(
         children: <Widget>[
-          new Container(
-            decoration: new BoxDecoration(
-              image: new DecorationImage(
-                image: new AssetImage("assets/images/background.png"),
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/background.png"),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          new Center(
-              child: new Column(
+          Center(
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              new FlatButton(
+              FlatButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -68,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              new FlatButton(
+              FlatButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -83,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              new FlatButton(
+              FlatButton(
                 onPressed: () => SystemNavigator.pop(),
                 child: Text(
                   'Thoát',
@@ -97,6 +96,6 @@ class HomeScreen extends StatelessWidget {
           ))
         ],
       ),
-    ));
+    );
   }
 }

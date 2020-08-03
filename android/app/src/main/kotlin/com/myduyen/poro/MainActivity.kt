@@ -1,4 +1,4 @@
-package com.example.appchat
+package com.myduyen.poro
 
 import io.flutter.embedding.android.FlutterActivity
 
