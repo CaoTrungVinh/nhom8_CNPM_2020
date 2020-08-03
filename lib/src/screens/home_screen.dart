@@ -19,8 +19,8 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
-          ),
-        ),
+          ),//style of title
+        ),//title
         backgroundColor: Colors.white,
         actions: [
 //            new ListTile( title: new Text("Cài đặt",),),
@@ -34,9 +34,9 @@ class HomeScreen extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => SettingScreen()),
               );
-            },
+            },//action cho button
           )
-        ],
+        ],//actions
       ),
       body: new Stack(
         children: <Widget>[

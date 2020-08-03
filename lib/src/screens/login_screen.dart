@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 bool checkNMK = false;
 class LoginScreen extends StatefulWidget {
   @override
@@ -19,20 +20,20 @@ class _loginScreen extends State<LoginScreen> {
             style: TextStyle(
               fontSize: 15,
               color: Colors.black,
-            ),
-          ),
+            ),//chon kieu cho tieu de
+          ),//tieu de
           centerTitle: true,
           leading: IconButton(
             icon: Icon(
               Icons.clear,
               color: Color(0xff2E3A59),
-            ),
+            ),//icon cho button chuyen ve trang truoc
             onPressed: () {
               Navigator.of(context).pop();
-            },
-          ),
+            },//them action cho icon
+          ),// icon tren app bar
           backgroundColor: Colors.white,
-        ),
+        ),//app bar
         body: Container(
           // cách bên trái 30 bên phải 30 không để không sát biên quá
 //          padding: EdgeInsets.fromLTRB(30, 0, 30, 0),
@@ -71,7 +72,7 @@ class _loginScreen extends State<LoginScreen> {
                     )
                   ],
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 20, 30, 0),
                 child: Stack(
@@ -106,7 +107,7 @@ class _loginScreen extends State<LoginScreen> {
                     )
                   ],
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                 child: Stack(
@@ -148,7 +149,7 @@ class _loginScreen extends State<LoginScreen> {
                     )
                   ],
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 30, 0),
                 child: Stack(
@@ -169,7 +170,7 @@ class _loginScreen extends State<LoginScreen> {
                     )
                   ],
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                 child: SizedBox(
@@ -186,7 +187,7 @@ class _loginScreen extends State<LoginScreen> {
                     ),
                   ),
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 0),
                 child: Center(
@@ -199,7 +200,7 @@ class _loginScreen extends State<LoginScreen> {
                     ),
                   ),
                 ),
-              ),
+              ),//padding
               Padding(
                 padding: const EdgeInsets.fromLTRB(30, 30, 30, 0),
                 child: Stack(
@@ -238,10 +239,10 @@ class _loginScreen extends State<LoginScreen> {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
+          ),// child: columns
+        ),//container
+      ),//scafford
+    );//material app
   }
 }
 
