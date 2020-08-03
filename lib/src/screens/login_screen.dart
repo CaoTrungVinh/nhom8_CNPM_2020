@@ -61,6 +61,7 @@ class _loginScreen extends State<LoginScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+
           Text('You are not signed in..'),
           RaisedButton(
             onPressed: _handleSignIn,
