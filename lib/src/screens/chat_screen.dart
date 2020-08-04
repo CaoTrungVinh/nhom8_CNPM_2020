@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:appchat/src/models/google_assistant_api.dart';
 import 'package:audiofileplayer/audiofileplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -30,9 +31,7 @@ class _ChatScreenState extends State<ChatScreen> {
   List<Message> _messages = []; // ds tin nhắn
   TextEditingController
       _controller; //controller của text editor nhập chữ bằng ban phím, lấy ra text nhập
-  EmbeddedAssistantClient _assistant; // model of google
-  List<int>
-      _lastConversationState; // conversationState của câu trả lời trước đó.
+  GoogleAssistantAPI _assistant; // model of google
   SpeechToText _speech = SpeechToText();
   bool _isInitializing;
 
@@ -79,6 +78,27 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // thêm tin nhắn của API lên màn hình chat và save local
+  Future<void> _addTheirMessage(String text) async {
+    final Message message = Message(
+      content: text,
+      isMine: false,
+      createdAt: DateTime.now(),
+    );
+    _addMessage(message);
+  }
+
+  // thêm tin nhắn của nguoiwf dungf lên màn hình chat và save local
+  Future<void> _addMyMessage(String text) async {
+    final Message message = Message(
+      content: text,
+      isMine: true,
+      createdAt: DateTime.now(),
+    );
+    _addMessage(message);
+  }
+
+// thêm tin nhắn lên màn hình chat và save local
   Future<void> _addMessage(Message message) async {
     setState(() {
       _messages.add(message);
@@ -169,8 +189,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     suffixIcon: GestureDetector(
                       child: Icon(Icons.send),
                       onTap: () {
-                        final conversation = _sendTextMessage();
-                        _handleAssistResponse(conversation);
+                        _sendTextMessage();
                       },
                     ),
                   ),
@@ -182,8 +201,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   maxLines: 3,
                   minLines: 1,
                   onFieldSubmitted: (value) {
-                    final conversation = _sendTextMessage();
-                    _handleAssistResponse(conversation);
+                    _sendTextMessage();
                   },
                 ),
               ),
@@ -287,63 +305,7 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  AssistRequest _createAssistRequest(String text) {
-    final audioOutConfig = AudioOutConfig()
-      ..encoding = AudioOutConfig_Encoding.MP3
-      ..sampleRateHertz = 24000
-      ..volumePercentage = 100;
-
-    final deviceConfig = DeviceConfig()
-      ..deviceId = 'default'
-      ..deviceModelId = 'default';
-
-    final dialogStateIn = DialogStateIn()..languageCode = 'en-US';
-    if (_lastConversationState != null) {
-      dialogStateIn.conversationState = _lastConversationState;
-    }
-
-    final config = AssistConfig()
-      ..audioOutConfig = audioOutConfig
-      ..deviceConfig = deviceConfig
-      ..dialogStateIn = dialogStateIn;
-
-    config.textQuery = text;
-
-    final request = AssistRequest()..config = config;
-    return request;
-  }
-
-  void _handleAssistResponse(Stream<AssistResponse> conversation) async {
-    List<int> audioData = List();
-
-    await conversation.forEach((response) {
-      print(response.eventType);
-      print(response.audioOut);
-      print(response.screenOut); // đoạn html của dữ liệu trả về
-      print(response.deviceAction); // dieu khien thiet bi
-      print(response.speechResults); // text in speech to text
-      print(response.dialogStateOut); // co chua text maf gg tra ve
-      print(response.debugInfo);
-      audioData.addAll(response.audioOut.audioData);
-      if (response.dialogStateOut != null) {
-        if (response.dialogStateOut.conversationState != null) {
-          _lastConversationState = response.dialogStateOut.conversationState;
-        }
-        // supplementalDisplayText du lieu text ma gg tra ve
-        if (response.dialogStateOut.supplementalDisplayText != null &&
-            response.dialogStateOut.supplementalDisplayText.isNotEmpty) {
-          _addMessage(Message(
-            content: response.dialogStateOut.supplementalDisplayText,
-            isMine: false,
-            createdAt: DateTime.now(),
-          ));
-        }
-      }
-    });
-    // phat audio gg tra ve
-    playAudio(audioData);
-  }
-
+  // phat ra audio
   void playAudio(List<int> audioData) {
     if (audioData.length > 0) {
       Audio.loadFromByteData(
@@ -354,54 +316,29 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _initGoogleAssistant() async {
-    final scopes = [
-      'https://www.googleapis.com/auth/assistant-sdk-prototype',
-    ];
-    final serviceAccount = await rootBundle.loadString('assets/key.json');
-
-    final authenticator = ServiceAccountAuthenticator(
-      serviceAccount,
-      scopes,
+    _assistant = GoogleAssistantAPI(
+      onAudio: playAudio,
+      onText: _addTheirMessage,
     );
-
-    final channel = ClientChannel('embeddedassistant.googleapis.com');
-    _assistant = EmbeddedAssistantClient(
-      channel,
-      options: authenticator.toCallOptions,
-    );
+    await _assistant.init();
   }
 
+  //Xử  lý text trả về từ speech_regconize
   void _onTextReg(SpeechRecognitionResult result) {
-    print(result.recognizedWords);
-    _addMessage(Message(
-      isMine: true,
-      content: result.recognizedWords,
-      createdAt: DateTime.now(),
-    ));
-    final request = _createAssistRequest(result.recognizedWords);
-    final conversation = _assistant.assist(Stream.value(request));
-    _handleAssistResponse(conversation);
+    _addMyMessage(result.recognizedWords);
+    _assistant.processing(result.recognizedWords);
   }
 
-  Stream<AssistResponse> _sendTextMessage() {
+  //Xử lý text người dùng nhập vào
+  void _sendTextMessage() {
     if (_controller.text.isNotEmpty) {
-      print('_controller.text not empty');
-      if (_assistant != null) {
-        print('_assistant not null');
-        String text = _controller.text;
-        _controller.clear();
-        _addMessage(Message(
-          content: text,
-          isMine: true,
-          createdAt: DateTime.now(),
-        ));
-        final request = _createAssistRequest(text);
-        return _assistant.assist(Stream.value(request));
-      }
+      String text = _controller.text;
+      _controller.clear();
+      _assistant.processing(text);
     }
-    return null;
   }
 
+  //Hiển thị lỗi
   void showError(SpeechRecognitionError errorNotification) {
     Scaffold.of(context).showSnackBar(
       SnackBar(
