@@ -114,7 +114,23 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text('Chat'),
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back_ios,
+          color: Color(0xff2E3A59),
+        ),
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
+      title: Text(
+        'Chat',
+        style: TextStyle(
+          fontSize: 15,
+          color: Colors.black,
+        ), //style of title
+      ), //title
+      backgroundColor: Colors.white,
       centerTitle: true,
     );
   }
