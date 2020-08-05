@@ -7,694 +7,97 @@ class "appchat::main.dart::App" {
 
 "flutter::src::widgets::framework.dart::StatelessWidget" <|-- "appchat::main.dart::App"
 
-' class "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng" {
-'   {static} -BuilderInfo _i
-'   {static} -LatLng _defaultInstance
-'   +BuilderInfo info_
-'   +double latitude
-'   +double longitude
-'   +LatLng clone()
-'   +LatLng copyWith()
-'   {static} +LatLng create()
-'   +LatLng createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +LatLng getDefault()
-'   +bool hasLatitude()
-'   +void clearLatitude()
-'   +bool hasLongitude()
-'   +void clearLongitude()
-' }
+class "appchat::src::providers::authenrication_provider.dart::AuthenticationProvider" {
+  -GoogleSignIn _googleSignIn
+  -GoogleSignInAccount _currentUser
+  -bool _isSignedIn
+  +GoogleSignInAccount currentUser
+  +bool isSignedIn
+  +Future autoLogin()
+  +Future login()
+  +Future logout()
+}
+
+"appchat::src::providers::authenrication_provider.dart::AuthenticationProvider" o-- "google_sign_in::google_sign_in.dart::GoogleSignIn"
+"appchat::src::providers::authenrication_provider.dart::AuthenticationProvider" o-- "google_sign_in::google_sign_in.dart::GoogleSignInAccount"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "appchat::src::providers::authenrication_provider.dart::AuthenticationProvider"
+"flutter::src::foundation::diagnostics.dart::DiagnosticableTreeMixin" <|-- "appchat::src::providers::authenrication_provider.dart::AuthenticationProvider"
 
-' "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng" o-- "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantClient" {
-'   {static} -ClientMethod<AssistRequest, AssistResponse> _$assist
-'   +ResponseStream assist()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantClient" o-- "grpc::src::client::method.dart::ClientMethod<AssistRequest, AssistResponse>"
-' "grpc::src::client::client.dart::Client" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantClient"
-
-' abstract class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantServiceBase" {
-'   +String $name
-'   +Stream assist()
-' }
-
-' "grpc::src::server::service.dart::Service" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantServiceBase"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AssistResponse_EventType" {
-'   {static} +AssistResponse_EventType EVENT_TYPE_UNSPECIFIED
-'   {static} +AssistResponse_EventType END_OF_UTTERANCE
-'   {static} +List<AssistResponse_EventType> values
-'   {static} -Map<int, AssistResponse_EventType> _byValue
-'   {static} +AssistResponse_EventType valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AssistResponse_EventType" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AssistResponse_EventType"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AssistResponse_EventType"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioInConfig_Encoding" {
-'   {static} +AudioInConfig_Encoding ENCODING_UNSPECIFIED
-'   {static} +AudioInConfig_Encoding LINEAR16
-'   {static} +AudioInConfig_Encoding FLAC
-'   {static} +List<AudioInConfig_Encoding> values
-'   {static} -Map<int, AudioInConfig_Encoding> _byValue
-'   {static} +AudioInConfig_Encoding valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioInConfig_Encoding" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioInConfig_Encoding"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioInConfig_Encoding"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioOutConfig_Encoding" {
-'   {static} +AudioOutConfig_Encoding ENCODING_UNSPECIFIED
-'   {static} +AudioOutConfig_Encoding LINEAR16
-'   {static} +AudioOutConfig_Encoding MP3
-'   {static} +AudioOutConfig_Encoding OPUS_IN_OGG
-'   {static} +List<AudioOutConfig_Encoding> values
-'   {static} -Map<int, AudioOutConfig_Encoding> _byValue
-'   {static} +AudioOutConfig_Encoding valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioOutConfig_Encoding" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioOutConfig_Encoding"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioOutConfig_Encoding"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOutConfig_ScreenMode" {
-'   {static} +ScreenOutConfig_ScreenMode SCREEN_MODE_UNSPECIFIED
-'   {static} +ScreenOutConfig_ScreenMode OFF
-'   {static} +ScreenOutConfig_ScreenMode PLAYING
-'   {static} +List<ScreenOutConfig_ScreenMode> values
-'   {static} -Map<int, ScreenOutConfig_ScreenMode> _byValue
-'   {static} +ScreenOutConfig_ScreenMode valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOutConfig_ScreenMode" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOutConfig_ScreenMode"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOutConfig_ScreenMode"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOut_Format" {
-'   {static} +ScreenOut_Format FORMAT_UNSPECIFIED
-'   {static} +ScreenOut_Format HTML
-'   {static} +List<ScreenOut_Format> values
-'   {static} -Map<int, ScreenOut_Format> _byValue
-'   {static} +ScreenOut_Format valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOut_Format" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOut_Format"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOut_Format"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::DialogStateOut_MicrophoneMode" {
-'   {static} +DialogStateOut_MicrophoneMode MICROPHONE_MODE_UNSPECIFIED
-'   {static} +DialogStateOut_MicrophoneMode CLOSE_MICROPHONE
-'   {static} +DialogStateOut_MicrophoneMode DIALOG_FOLLOW_ON
-'   {static} +List<DialogStateOut_MicrophoneMode> values
-'   {static} -Map<int, DialogStateOut_MicrophoneMode> _byValue
-'   {static} +DialogStateOut_MicrophoneMode valueOf()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::DialogStateOut_MicrophoneMode" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::DialogStateOut_MicrophoneMode"
-' "protobuf::protobuf.dart::ProtobufEnum" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::DialogStateOut_MicrophoneMode"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest_Type" {
-'   +int index
-'   {static} +List<AssistRequest_Type> values
-'   {static} +AssistRequest_Type config
-'   {static} +AssistRequest_Type audioIn
-'   {static} +AssistRequest_Type notSet
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest_Type" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest_Type"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig_Type" {
-'   +int index
-'   {static} +List<AssistConfig_Type> values
-'   {static} +AssistConfig_Type audioInConfig
-'   {static} +AssistConfig_Type textQuery
-'   {static} +AssistConfig_Type notSet
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig_Type" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig_Type"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation_Type" {
-'   +int index
-'   {static} +List<DeviceLocation_Type> values
-'   {static} +DeviceLocation_Type coordinates
-'   {static} +DeviceLocation_Type notSet
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation_Type" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation_Type"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest" {
-'   {static} -Map<int, AssistRequest_Type> _AssistRequest_TypeByTag
-'   {static} -BuilderInfo _i
-'   {static} -AssistRequest _defaultInstance
-'   +BuilderInfo info_
-'   +AssistConfig config
-'   +List<int> audioIn
-'   +AssistRequest clone()
-'   +AssistRequest copyWith()
-'   {static} +AssistRequest create()
-'   +AssistRequest createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AssistRequest getDefault()
-'   +AssistRequest_Type whichType()
-'   +void clearType()
-'   +bool hasConfig()
-'   +void clearConfig()
-'   +AssistConfig ensureConfig()
-'   +bool hasAudioIn()
-'   +void clearAudioIn()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistRequest"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" {
-'   {static} -BuilderInfo _i
-'   {static} -AssistResponse _defaultInstance
-'   +BuilderInfo info_
-'   +AssistResponse_EventType eventType
-'   +List<SpeechRecognitionResult> speechResults
-'   +AudioOut audioOut
-'   +ScreenOut screenOut
-'   +DialogStateOut dialogStateOut
-'   +DeviceAction deviceAction
-'   +DebugInfo debugInfo
-'   +AssistResponse clone()
-'   +AssistResponse copyWith()
-'   {static} +AssistResponse create()
-'   +AssistResponse createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AssistResponse getDefault()
-'   +bool hasEventType()
-'   +void clearEventType()
-'   +bool hasAudioOut()
-'   +void clearAudioOut()
-'   +AudioOut ensureAudioOut()
-'   +bool hasScreenOut()
-'   +void clearScreenOut()
-'   +ScreenOut ensureScreenOut()
-'   +bool hasDialogStateOut()
-'   +void clearDialogStateOut()
-'   +DialogStateOut ensureDialogStateOut()
-'   +bool hasDeviceAction()
-'   +void clearDeviceAction()
-'   +DeviceAction ensureDeviceAction()
-'   +bool hasDebugInfo()
-'   +void clearDebugInfo()
-'   +DebugInfo ensureDebugInfo()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AssistResponse_EventType"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistResponse"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo" {
-'   {static} -BuilderInfo _i
-'   {static} -DebugInfo _defaultInstance
-'   +BuilderInfo info_
-'   +String aogAgentToAssistantJson
-'   +DebugInfo clone()
-'   +DebugInfo copyWith()
-'   {static} +DebugInfo create()
-'   +DebugInfo createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DebugInfo getDefault()
-'   +bool hasAogAgentToAssistantJson()
-'   +void clearAogAgentToAssistantJson()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugInfo"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" {
-'   {static} -Map<int, AssistConfig_Type> _AssistConfig_TypeByTag
-'   {static} -BuilderInfo _i
-'   {static} -AssistConfig _defaultInstance
-'   +BuilderInfo info_
-'   +AudioInConfig audioInConfig
-'   +AudioOutConfig audioOutConfig
-'   +DialogStateIn dialogStateIn
-'   +DeviceConfig deviceConfig
-'   +DebugConfig debugConfig
-'   +String textQuery
-'   +ScreenOutConfig screenOutConfig
-'   +AssistConfig clone()
-'   +AssistConfig copyWith()
-'   {static} +AssistConfig create()
-'   +AssistConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AssistConfig getDefault()
-'   +AssistConfig_Type whichType()
-'   +void clearType()
-'   +bool hasAudioInConfig()
-'   +void clearAudioInConfig()
-'   +AudioInConfig ensureAudioInConfig()
-'   +bool hasAudioOutConfig()
-'   +void clearAudioOutConfig()
-'   +AudioOutConfig ensureAudioOutConfig()
-'   +bool hasDialogStateIn()
-'   +void clearDialogStateIn()
-'   +DialogStateIn ensureDialogStateIn()
-'   +bool hasDeviceConfig()
-'   +void clearDeviceConfig()
-'   +DeviceConfig ensureDeviceConfig()
-'   +bool hasDebugConfig()
-'   +void clearDebugConfig()
-'   +DebugConfig ensureDebugConfig()
-'   +bool hasTextQuery()
-'   +void clearTextQuery()
-'   +bool hasScreenOutConfig()
-'   +void clearScreenOutConfig()
-'   +ScreenOutConfig ensureScreenOutConfig()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AssistConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig" {
-'   {static} -BuilderInfo _i
-'   {static} -AudioInConfig _defaultInstance
-'   +BuilderInfo info_
-'   +AudioInConfig_Encoding encoding
-'   +int sampleRateHertz
-'   +AudioInConfig clone()
-'   +AudioInConfig copyWith()
-'   {static} +AudioInConfig create()
-'   +AudioInConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AudioInConfig getDefault()
-'   +bool hasEncoding()
-'   +void clearEncoding()
-'   +bool hasSampleRateHertz()
-'   +void clearSampleRateHertz()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioInConfig_Encoding"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioInConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig" {
-'   {static} -BuilderInfo _i
-'   {static} -AudioOutConfig _defaultInstance
-'   +BuilderInfo info_
-'   +AudioOutConfig_Encoding encoding
-'   +int sampleRateHertz
-'   +int volumePercentage
-'   +AudioOutConfig clone()
-'   +AudioOutConfig copyWith()
-'   {static} +AudioOutConfig create()
-'   +AudioOutConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AudioOutConfig getDefault()
-'   +bool hasEncoding()
-'   +void clearEncoding()
-'   +bool hasSampleRateHertz()
-'   +void clearSampleRateHertz()
-'   +bool hasVolumePercentage()
-'   +void clearVolumePercentage()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::AudioOutConfig_Encoding"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOutConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig" {
-'   {static} -BuilderInfo _i
-'   {static} -ScreenOutConfig _defaultInstance
-'   +BuilderInfo info_
-'   +ScreenOutConfig_ScreenMode screenMode
-'   +ScreenOutConfig clone()
-'   +ScreenOutConfig copyWith()
-'   {static} +ScreenOutConfig create()
-'   +ScreenOutConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +ScreenOutConfig getDefault()
-'   +bool hasScreenMode()
-'   +void clearScreenMode()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOutConfig_ScreenMode"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOutConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn" {
-'   {static} -BuilderInfo _i
-'   {static} -DialogStateIn _defaultInstance
-'   +BuilderInfo info_
-'   +List<int> conversationState
-'   +String languageCode
-'   +DeviceLocation deviceLocation
-'   +bool isNewConversation
-'   +DialogStateIn clone()
-'   +DialogStateIn copyWith()
-'   {static} +DialogStateIn create()
-'   +DialogStateIn createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DialogStateIn getDefault()
-'   +bool hasConversationState()
-'   +void clearConversationState()
-'   +bool hasLanguageCode()
-'   +void clearLanguageCode()
-'   +bool hasDeviceLocation()
-'   +void clearDeviceLocation()
-'   +DeviceLocation ensureDeviceLocation()
-'   +bool hasIsNewConversation()
-'   +void clearIsNewConversation()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateIn"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig" {
-'   {static} -BuilderInfo _i
-'   {static} -DeviceConfig _defaultInstance
-'   +BuilderInfo info_
-'   +String deviceId
-'   +String deviceModelId
-'   +DeviceConfig clone()
-'   +DeviceConfig copyWith()
-'   {static} +DeviceConfig create()
-'   +DeviceConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DeviceConfig getDefault()
-'   +bool hasDeviceId()
-'   +void clearDeviceId()
-'   +bool hasDeviceModelId()
-'   +void clearDeviceModelId()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut" {
-'   {static} -BuilderInfo _i
-'   {static} -AudioOut _defaultInstance
-'   +BuilderInfo info_
-'   +List<int> audioData
-'   +AudioOut clone()
-'   +AudioOut copyWith()
-'   {static} +AudioOut create()
-'   +AudioOut createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +AudioOut getDefault()
-'   +bool hasAudioData()
-'   +void clearAudioData()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::AudioOut"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut" {
-'   {static} -BuilderInfo _i
-'   {static} -ScreenOut _defaultInstance
-'   +BuilderInfo info_
-'   +ScreenOut_Format format
-'   +List<int> data
-'   +ScreenOut clone()
-'   +ScreenOut copyWith()
-'   {static} +ScreenOut create()
-'   +ScreenOut createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +ScreenOut getDefault()
-'   +bool hasFormat()
-'   +void clearFormat()
-'   +bool hasData()
-'   +void clearData()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::ScreenOut_Format"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::ScreenOut"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction" {
-'   {static} -BuilderInfo _i
-'   {static} -DeviceAction _defaultInstance
-'   +BuilderInfo info_
-'   +String deviceRequestJson
-'   +DeviceAction clone()
-'   +DeviceAction copyWith()
-'   {static} +DeviceAction create()
-'   +DeviceAction createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DeviceAction getDefault()
-'   +bool hasDeviceRequestJson()
-'   +void clearDeviceRequestJson()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceAction"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::SpeechRecognitionResult" {
-'   {static} -BuilderInfo _i
-'   {static} -SpeechRecognitionResult _defaultInstance
-'   +BuilderInfo info_
-'   +String transcript
-'   +double stability
-'   +SpeechRecognitionResult clone()
-'   +SpeechRecognitionResult copyWith()
-'   {static} +SpeechRecognitionResult create()
-'   +SpeechRecognitionResult createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +SpeechRecognitionResult getDefault()
-'   +bool hasTranscript()
-'   +void clearTranscript()
-'   +bool hasStability()
-'   +void clearStability()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::SpeechRecognitionResult" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::SpeechRecognitionResult" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::SpeechRecognitionResult"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::SpeechRecognitionResult"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut" {
-'   {static} -BuilderInfo _i
-'   {static} -DialogStateOut _defaultInstance
-'   +BuilderInfo info_
-'   +String supplementalDisplayText
-'   +List<int> conversationState
-'   +DialogStateOut_MicrophoneMode microphoneMode
-'   +int volumePercentage
-'   +DialogStateOut clone()
-'   +DialogStateOut copyWith()
-'   {static} +DialogStateOut create()
-'   +DialogStateOut createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DialogStateOut getDefault()
-'   +bool hasSupplementalDisplayText()
-'   +void clearSupplementalDisplayText()
-'   +bool hasConversationState()
-'   +void clearConversationState()
-'   +bool hasMicrophoneMode()
-'   +void clearMicrophoneMode()
-'   +bool hasVolumePercentage()
-'   +void clearVolumePercentage()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbenum.dart::DialogStateOut_MicrophoneMode"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DialogStateOut"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig" {
-'   {static} -BuilderInfo _i
-'   {static} -DebugConfig _defaultInstance
-'   +BuilderInfo info_
-'   +bool returnDebugInfo
-'   +DebugConfig clone()
-'   +DebugConfig copyWith()
-'   {static} +DebugConfig create()
-'   +DebugConfig createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DebugConfig getDefault()
-'   +bool hasReturnDebugInfo()
-'   +void clearReturnDebugInfo()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DebugConfig"
-
-' class "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation" {
-'   {static} -Map<int, DeviceLocation_Type> _DeviceLocation_TypeByTag
-'   {static} -BuilderInfo _i
-'   {static} -DeviceLocation _defaultInstance
-'   +BuilderInfo info_
-'   +LatLng coordinates
-'   +DeviceLocation clone()
-'   +DeviceLocation copyWith()
-'   {static} +DeviceLocation create()
-'   +DeviceLocation createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +DeviceLocation getDefault()
-'   +DeviceLocation_Type whichType()
-'   +void clearType()
-'   +bool hasCoordinates()
-'   +void clearCoordinates()
-'   +LatLng ensureCoordinates()
-' }
-
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation"
-' "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation" o-- "appchat::src::models::generated::google::type::latlng.pb.dart::LatLng"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pb.dart::DeviceLocation"
-
-' class "appchat::src::models::generated::google::api::http.pb.dart::HttpRule_Pattern" {
-'   +int index
-'   {static} +List<HttpRule_Pattern> values
-'   {static} +HttpRule_Pattern get
-'   {static} +HttpRule_Pattern put
-'   {static} +HttpRule_Pattern post
-'   {static} +HttpRule_Pattern delete
-'   {static} +HttpRule_Pattern patch
-'   {static} +HttpRule_Pattern custom
-'   {static} +HttpRule_Pattern notSet
-' }
-
-' "appchat::src::models::generated::google::api::http.pb.dart::HttpRule_Pattern" o-- "appchat::src::models::generated::google::api::http.pb.dart::HttpRule_Pattern"
-
-' class "appchat::src::models::generated::google::api::http.pb.dart::Http" {
-'   {static} -BuilderInfo _i
-'   {static} -Http _defaultInstance
-'   +BuilderInfo info_
-'   +List<HttpRule> rules
-'   +bool fullyDecodeReservedExpansion
-'   +Http clone()
-'   +Http copyWith()
-'   {static} +Http create()
-'   +Http createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +Http getDefault()
-'   +bool hasFullyDecodeReservedExpansion()
-'   +void clearFullyDecodeReservedExpansion()
-' }
-
-' "appchat::src::models::generated::google::api::http.pb.dart::Http" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::api::http.pb.dart::Http" o-- "appchat::src::models::generated::google::api::http.pb.dart::Http"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::api::http.pb.dart::Http"
-
-' class "appchat::src::models::generated::google::api::http.pb.dart::HttpRule" {
-'   {static} -Map<int, HttpRule_Pattern> _HttpRule_PatternByTag
-'   {static} -BuilderInfo _i
-'   {static} -HttpRule _defaultInstance
-'   +BuilderInfo info_
-'   +String selector
-'   +String get
-'   +String put
-'   +String post
-'   +String delete
-'   +String patch
-'   +String body
-'   +CustomHttpPattern custom
-'   +List<HttpRule> additionalBindings
-'   +String responseBody
-'   +HttpRule clone()
-'   +HttpRule copyWith()
-'   {static} +HttpRule create()
-'   +HttpRule createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +HttpRule getDefault()
-'   +HttpRule_Pattern whichPattern()
-'   +void clearPattern()
-'   +bool hasSelector()
-'   +void clearSelector()
-'   +bool hasGet()
-'   +void clearGet()
-'   +bool hasPut()
-'   +void clearPut()
-'   +bool hasPost()
-'   +void clearPost()
-'   +bool hasDelete()
-'   +void clearDelete()
-'   +bool hasPatch()
-'   +void clearPatch()
-'   +bool hasBody()
-'   +void clearBody()
-'   +bool hasCustom()
-'   +void clearCustom()
-'   +CustomHttpPattern ensureCustom()
-'   +bool hasResponseBody()
-'   +void clearResponseBody()
-' }
-
-' "appchat::src::models::generated::google::api::http.pb.dart::HttpRule" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::api::http.pb.dart::HttpRule" o-- "appchat::src::models::generated::google::api::http.pb.dart::HttpRule"
-' "appchat::src::models::generated::google::api::http.pb.dart::HttpRule" o-- "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::api::http.pb.dart::HttpRule"
-
-' class "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern" {
-'   {static} -BuilderInfo _i
-'   {static} -CustomHttpPattern _defaultInstance
-'   +BuilderInfo info_
-'   +String kind
-'   +String path
-'   +CustomHttpPattern clone()
-'   +CustomHttpPattern copyWith()
-'   {static} +CustomHttpPattern create()
-'   +CustomHttpPattern createEmptyInstance()
-'   {static} +PbList createRepeated()
-'   {static} +CustomHttpPattern getDefault()
-'   +bool hasKind()
-'   +void clearKind()
-'   +bool hasPath()
-'   +void clearPath()
-' }
-
-' "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern" o-- "protobuf::protobuf.dart::BuilderInfo"
-' "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern" o-- "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern"
-' "protobuf::protobuf.dart::GeneratedMessage" <|-- "appchat::src::models::generated::google::api::http.pb.dart::CustomHttpPattern"
-
-' class "appchat::src::models::generated::google::api::annotations.pb.dart::Annotations" {
-'   {static} +Extension http
-'   {static} +void registerAllExtensions()
-' }
 
 "appchat::src::models::generated::google::api::annotations.pb.dart::Annotations" o-- "protobuf::protobuf.dart::Extension"
+
+class "appchat::src::models::message.dart::MessageType" {
+  +int index
+  {static} +List<MessageType> values
+  {static} +MessageType HTML
+  {static} +MessageType TEXT
+}
+
+"appchat::src::models::message.dart::MessageType" o-- "appchat::src::models::message.dart::MessageType"
 
 class "appchat::src::models::message.dart::Message" {
   +int id
   +bool isMine
   +String content
   +DateTime createdAt
+  +MessageType messageType
   +Map toJson()
 }
 
-class "appchat::src::screens::setting_screen.dart::SettingScreen" {
-  +State createState()
+"appchat::src::models::message.dart::Message" o-- "appchat::src::models::message.dart::MessageType"
+
+class "appchat::src::models::google_assistant_api.dart::TextType" {
+  +int index
+  {static} +List<TextType> values
+  {static} +TextType HTML
+  {static} +TextType PLAIN
 }
 
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "appchat::src::screens::setting_screen.dart::SettingScreen"
+"appchat::src::models::google_assistant_api.dart::TextType" o-- "appchat::src::models::google_assistant_api.dart::TextType"
 
-class "appchat::src::screens::setting_screen.dart::_MySettingState" {
+class "appchat::src::models::google_assistant_api.dart::GoogleAssistantAPI" {
+  +void Function(String, TextType) onText
+  +void Function(List<int>) onAudio
+  -EmbeddedAssistantClient _assistant
+  -List<int> _lastConversationState
+  +Future init()
+  -AssistRequest _createAssistRequest()
+  +void processing()
+  -void _handleAssistResponse()
+}
+
+"appchat::src::models::google_assistant_api.dart::GoogleAssistantAPI" o-- "appchat::src::models::google_assistant_api.dart::void Function(String, TextType)"
+"appchat::src::models::google_assistant_api.dart::GoogleAssistantAPI" o-- "appchat::src::models::google_assistant_api.dart::void Function(List<int>)"
+"appchat::src::models::google_assistant_api.dart::GoogleAssistantAPI" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantClient"
+
+class "appchat::src::screens::login_screen.dart::LoginScreen" {
+  +Widget build()
+  -Widget _buildBody()
+  -Future _handleSignIn()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "appchat::src::screens::login_screen.dart::LoginScreen"
+
+class "appchat::src::screens::setting_screen.dart::SettingScreen" {
+  +Widget build()
+  -Future _showDialog()
+  -Future _handleSignOut()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "appchat::src::screens::setting_screen.dart::SettingScreen"
+
+class "appchat::src::screens::RegisterPage.dart::RegisterPage" {
+  +_RegisterPageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "appchat::src::screens::RegisterPage.dart::RegisterPage"
+
+class "appchat::src::screens::RegisterPage.dart::_RegisterPageState" {
+  -dynamic _name
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State<T>" <|-- "appchat::src::screens::setting_screen.dart::_MySettingState"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "appchat::src::screens::RegisterPage.dart::_RegisterPageState"
 
 class "appchat::src::screens::home_screen.dart::HomeScreen" {
   +Widget build()
@@ -711,8 +114,7 @@ class "appchat::src::screens::chat_screen.dart::ChatScreen" {
 class "appchat::src::screens::chat_screen.dart::_ChatScreenState" {
   -List<Message> _messages
   -TextEditingController _controller
-  -EmbeddedAssistantClient _assistant
-  -List<int> _lastConversationState
+  -GoogleAssistantAPI _assistant
   -SpeechToText _speech
   -bool _isInitializing
   +Widget build()
@@ -720,22 +122,24 @@ class "appchat::src::screens::chat_screen.dart::_ChatScreenState" {
   +void initState()
   -void _init()
   +Future showMess()
+  -Future _addTheirMessage()
+  -Future _addMyMessage()
   -Future _addMessage()
   -Widget _buildAppBar()
   -Widget _buildBody()
   -Widget _buildMyMessage()
   -Widget _buildTheirMessage()
-  -AssistRequest _createAssistRequest()
-  -void _handleAssistResponse()
-  +void playAudio()
+  -void _playAudio()
+  +void onGoogleApiTextResponse()
+  +void onGoogleApiAudioResponse()
   -Future _initGoogleAssistant()
   -void _onTextReg()
-  -Stream _sendTextMessage()
+  -void _sendTextMessage()
   +void showError()
 }
 
 "appchat::src::screens::chat_screen.dart::_ChatScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"appchat::src::screens::chat_screen.dart::_ChatScreenState" o-- "appchat::src::models::generated::google::assistant::embedded::v1alpha2::embedded_assistant.pbgrpc.dart::EmbeddedAssistantClient"
+"appchat::src::screens::chat_screen.dart::_ChatScreenState" o-- "appchat::src::models::google_assistant_api.dart::GoogleAssistantAPI"
 "appchat::src::screens::chat_screen.dart::_ChatScreenState" o-- "speech_to_text::speech_to_text.dart::SpeechToText"
 "flutter::src::widgets::framework.dart::State<T>" <|-- "appchat::src::screens::chat_screen.dart::_ChatScreenState"
 
@@ -745,15 +149,14 @@ class "appchat::src::screens::splash_screen.dart::SplashScreen" {
 
 "flutter::src::widgets::framework.dart::StatefulWidget" <|-- "appchat::src::screens::splash_screen.dart::SplashScreen"
 
-class "appchat::src::screens::splash_screen.dart::StartState" {
+class "appchat::src::screens::splash_screen.dart::_SplashScreenState" {
   +Widget build()
   +void initState()
-  +dynamic startTimer()
-  +dynamic route()
+  +dynamic init()
   +dynamic initScreen()
 }
 
-"flutter::src::widgets::framework.dart::State<T>" <|-- "appchat::src::screens::splash_screen.dart::StartState"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "appchat::src::screens::splash_screen.dart::_SplashScreenState"
 
 
 @enduml
