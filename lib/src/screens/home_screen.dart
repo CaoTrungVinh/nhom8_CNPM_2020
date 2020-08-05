@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'setting_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['profile', 'email']);
@@ -50,7 +49,6 @@ class _homeScreen extends State<HomeScreen> {
         ), //title
         backgroundColor: Colors.white,
         actions: [
-//             ListTile( title:  Text("Cài đặt",),),
           IconButton(
             icon: Icon(
               Icons.settings,
@@ -59,7 +57,7 @@ class _homeScreen extends State<HomeScreen> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SettingScreen()),
+                MaterialPageRoute(builder: (context) => SettingScreen()),//gọi tới màn hình cài đặt
               );
             }, //action cho button
           )
@@ -182,6 +180,26 @@ class _loginScreen extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Đăng nhập',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.black,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: Color(0xff2E3A59),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        backgroundColor: Colors.white,
+      ),
       body: Center(child: _buildBody()),
     );
   }
@@ -202,7 +220,7 @@ class _loginScreen extends State<LoginScreen> {
           OutlineButton(
             splashColor: Colors.grey,
             onPressed: () {
-              _handleSignIn();
+              _handleSignIn();//gọi đăng nhập google
             },
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
@@ -231,10 +249,6 @@ class _loginScreen extends State<LoginScreen> {
               ),
             ),
           ),
-//          RaisedButton(
-//            onPressed: _handleSignIn,
-//            child: Text('SIGN IN'),
-//          )
         ],
       );
     }
@@ -309,7 +323,7 @@ class _MySettingState extends State<SettingScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: Column(
                     children: [
                       isSignIn
