@@ -71,7 +71,7 @@ class HomeScreen extends StatelessWidget {
                     : FlatButton(
                         // nếu chưa đăng nhập hiển thị đăng nhập
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => LoginScreen(),
                             ),
@@ -85,6 +85,28 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                if (!context.watch<AuthenticationProvider>().isSignedIn)
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Đăng ký',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                if (!context.watch<AuthenticationProvider>().isSignedIn)
+                  FlatButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Quên mật khẩu',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 FlatButton(
                   onPressed: () {
                     Navigator.of(context).push(

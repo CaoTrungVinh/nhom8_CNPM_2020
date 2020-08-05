@@ -38,10 +38,12 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Image(
-              image: AssetImage("assets/images/logo_chat.png"), height: 150.0),
+            image: AssetImage("assets/images/logo_chat.png"),
+            height: 150.0,
+          ),
+          SizedBox(height: 56),
           OutlineButton(
             splashColor: Colors.grey,
             onPressed: () {
@@ -61,7 +63,6 @@ class LoginScreen extends StatelessWidget {
                     image: AssetImage("assets/images/google_logo.png"),
                     height: 25.0,
                   ),
-                  SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Text(
