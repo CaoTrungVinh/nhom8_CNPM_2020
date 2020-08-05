@@ -1,14 +1,15 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/authenrication_provider.dart';
 import 'home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => StartState();
+  State<StatefulWidget> createState() => _SplashScreenState();
 }
 
-class StartState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return initScreen(context);
@@ -17,17 +18,21 @@ class StartState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    startTimer();
+    init();
   }
 
-  startTimer() async {
-    var duration = Duration(seconds: 1);
-    return new Timer(duration, route);
-  }
+  init() async {
+    //Thực hiện khởi tạo app
 
-  route() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    // tu dong login tk da dang nhapo truoc do
+    await context.read<AuthenticationProvider>().autoLogin();
+
+    //Vào màn hình chính
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(),
+      ),
+    );
   }
 
   initScreen(BuildContext context) {
