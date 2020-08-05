@@ -87,6 +87,28 @@ class HomeScreen extends StatelessWidget {
                       ),
                 FlatButton(
                   onPressed: () {
+                  },
+                  child: Text(
+                    'Đăng ký',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                  },
+                  child: Text(
+                    'Quên mật khẩu',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ChatScreen(),
