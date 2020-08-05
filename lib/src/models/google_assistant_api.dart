@@ -1,10 +1,18 @@
+import 'dart:convert';
+
 import 'package:grpc/grpc.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
 import 'generated/google/assistant/embedded/v1alpha2/embedded_assistant.pbgrpc.dart';
 
+enum TextType {
+  HTML,
+  PLAIN,
+}
+
 class GoogleAssistantAPI {
-  final void Function(String text) onText; // hàm trả kết quả text ra ngoài
+  final void Function(String text, TextType type)
+      onText; // hàm trả kết quả text ra ngoài
   final void Function(List<int> audio)
       onAudio; // hàm trả kết quả audio ra ngoài
 
@@ -50,10 +58,14 @@ class GoogleAssistantAPI {
       dialogStateIn.conversationState = _lastConversationState;
     }
 
+    final screenOutConfig = ScreenOutConfig()
+      ..screenMode = ScreenOutConfig_ScreenMode.PLAYING;
+
     final config = AssistConfig()
       ..audioOutConfig = audioOutConfig
       ..deviceConfig = deviceConfig
-      ..dialogStateIn = dialogStateIn;
+      ..dialogStateIn = dialogStateIn
+      ..screenOutConfig = screenOutConfig;
 
     config.textQuery = text;
 
@@ -78,6 +90,8 @@ class GoogleAssistantAPI {
 
   void _handleAssistResponse(Stream<AssistResponse> conversation) async {
     List<int> audioData = List();
+    List<int> htmlData = List();
+    String text;
 
     await conversation.forEach((response) {
       print(response.eventType);
@@ -87,7 +101,15 @@ class GoogleAssistantAPI {
       print(response.speechResults); // text in speech to text
       print(response.dialogStateOut); // co chua text maf gg tra ve
       print(response.debugInfo);
+
+      //Lấy audio data
       audioData.addAll(response.audioOut.audioData);
+
+      //Lấy dữ liệu HTML nếu có
+      if (response.screenOut != null && response.screenOut.data != null) {
+        htmlData.addAll(response.screenOut.data);
+      }
+
       if (response.dialogStateOut != null) {
         if (response.dialogStateOut.conversationState != null) {
           _lastConversationState = response.dialogStateOut.conversationState;
@@ -95,15 +117,28 @@ class GoogleAssistantAPI {
         // supplementalDisplayText du lieu text ma gg tra ve
         if (response.dialogStateOut.supplementalDisplayText != null &&
             response.dialogStateOut.supplementalDisplayText.isNotEmpty) {
-          if (onText != null) {
-            onText(response.dialogStateOut.supplementalDisplayText);
-          }
+          text = response.dialogStateOut.supplementalDisplayText.trim();
         }
       }
     });
     // phat audio gg tra ve
-    if (onAudio != null) {
+    if (onAudio != null && audioData.length != 0) {
       onAudio(audioData);
+    }
+
+    if (onText != null) {
+      if (text != null && text.isNotEmpty) {
+        onText(
+          text,
+          TextType.PLAIN,
+        );
+      } else if (htmlData.length != 0) {
+        print(utf8.decode(htmlData));
+        onText(
+          utf8.decode(htmlData),
+          TextType.HTML,
+        );
+      }
     }
   }
 }

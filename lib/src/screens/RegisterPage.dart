@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterPageState createState() => _RegisterPageState();
@@ -31,71 +31,63 @@ class _RegisterPageState extends State<RegisterPage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30, 0, 20),
                 child: TextField(
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                      decoration: InputDecoration(
-                          labelText: "Name",
-                          prefixIcon: Container(
-                              width: 50, child: Image.asset("ic_user.png")),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffCED0D2), width: 1),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(6)))),
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  decoration: InputDecoration(
+                      labelText: "Name",
+                      prefixIcon: Container(
+                          width: 50, child: Image.asset("ic_user.png")),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xffCED0D2), width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(6)))),
                 ),
               ),
-
-                 TextFormField(
-                   validator: (String arg) {
-                     if(arg.length < 3)
-                       return 'Name must be more than 2 charater';
-                     else
-                       return null;
-                   },
-                   onSaved: (String val) {
-                     _name = val;
-                   },
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    decoration: InputDecoration(
-                        labelText: "Phone Number",
-                        prefixIcon: Container(
-                            width: 50, child: Image.asset("ic_phone.png")),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xffCED0D2), width: 1),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(6)))),
-                  ),
+              TextFormField(
+                validator: (String arg) {
+                  if (arg.length < 3)
+                    return 'Name must be more than 2 charater';
+                  else
+                    return null;
+                },
+                onSaved: (String val) {
+                  _name = val;
+                },
+                style: TextStyle(fontSize: 18, color: Colors.black),
+                decoration: InputDecoration(
+                    labelText: "Phone Number",
+                    prefixIcon: Container(
+                        width: 50, child: Image.asset("ic_phone.png")),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xffCED0D2), width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(6)))),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-               child: TextField(
-
-                      style: TextStyle(fontSize: 18, color: Colors.black),
-                      decoration: InputDecoration(
-                          labelText: "Email",
-                          prefixIcon: Container(
-                              width: 50, child: Image.asset("ic_mail.png")),
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Color(0xffCED0D2), width: 1),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(6)))),
-                 ),
+                child: TextField(
+                  style: TextStyle(fontSize: 18, color: Colors.black),
+                  decoration: InputDecoration(
+                      labelText: "Email",
+                      prefixIcon: Container(
+                          width: 50, child: Image.asset("ic_mail.png")),
+                      border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: Color(0xffCED0D2), width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(6)))),
+                ),
               ),
-
-                  TextField(
-                    obscureText: true,
-                    style: TextStyle(fontSize: 18, color: Colors.black),
-                    decoration: InputDecoration(
-
-                        labelText: "Password",
-                        prefixIcon: Container(
-                            width: 50, child: Image.asset("ic_lock.png")),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xffCED0D2), width: 1),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(6)))),
-                  ),
+              TextField(
+                obscureText: true,
+                style: TextStyle(fontSize: 18, color: Colors.black),
+                decoration: InputDecoration(
+                    labelText: "Password",
+                    prefixIcon:
+                        Container(width: 50, child: Image.asset("ic_lock.png")),
+                    border: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(color: Color(0xffCED0D2), width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(6)))),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
                 child: TextField(
@@ -105,10 +97,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       prefixIcon: Container(
                           width: 50, child: Image.asset("ic_lock.png")),
                       border: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Color(0xffCED0D2), width: 1),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(6)))),
+                          borderSide:
+                              BorderSide(color: Color(0xffCED0D2), width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(6)))),
                 ),
               ),
               Padding(
@@ -124,6 +115,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     color: Color(0xff3277D8),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(6))),
+                    onPressed: () {},
                   ),
                 ),
               ),
@@ -147,5 +139,4 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
-
 }

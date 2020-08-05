@@ -2,19 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:appchat/src/models/google_assistant_api.dart';
 import 'package:audiofileplayer/audiofileplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:grpc/grpc.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
-import '../models/generated/google/assistant/embedded/v1alpha2/embedded_assistant.pbgrpc.dart'
-    hide SpeechRecognitionResult;
+import '../models/google_assistant_api.dart';
 import '../models/message.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -79,11 +77,15 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   // thêm tin nhắn của API lên màn hình chat và save local
-  Future<void> _addTheirMessage(String text) async {
+  Future<void> _addTheirMessage(
+    String text, [
+    MessageType type = MessageType.TEXT,
+  ]) async {
     final Message message = Message(
       content: text,
       isMine: false,
       createdAt: DateTime.now(),
+      messageType: type,
     );
     _addMessage(message);
   }
@@ -94,6 +96,7 @@ class _ChatScreenState extends State<ChatScreen> {
       content: text,
       isMine: true,
       createdAt: DateTime.now(),
+      messageType: MessageType.TEXT,
     );
     _addMessage(message);
   }
@@ -275,26 +278,30 @@ class _ChatScreenState extends State<ChatScreen> {
               Row(
                 children: <Widget>[
                   Container(
-                    constraints: BoxConstraints(
-                      maxWidth: MediaQuery.of(context).size.width - 120,
-                    ),
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Color(0xffffffff),
-                      border: Border.all(
-                        color: Color(0xffE0E0E0),
-                        width: 1,
+                      constraints: BoxConstraints(
+                        maxWidth: MediaQuery.of(context).size.width - 120,
+                        // maxHeight: 500.0,
                       ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      message.content,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(0xff000000),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Color(0xffffffff),
+                        border: Border.all(
+                          color: Color(0xffE0E0E0),
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    ),
-                  ),
+                      child: message.messageType == MessageType.TEXT
+                          ? Text(
+                              message.content,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color(0xff000000),
+                              ),
+                            )
+                          : Html(
+                              data: message.content,
+                            )),
                   Expanded(child: SizedBox(width: 120)),
                 ],
               ),
@@ -306,7 +313,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   // phat ra audio
-  void playAudio(List<int> audioData) {
+  void _playAudio(List<int> audioData) {
     if (audioData.length > 0) {
       Audio.loadFromByteData(
           ByteData.sublistView(Uint8List.fromList(audioData)))
@@ -315,10 +322,24 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  //Xử lý dữ liệu văn bản do Google Api trả về
+  void onGoogleApiTextResponse(String text, TextType type) {
+    if (type == TextType.HTML) {
+      _addTheirMessage(text, MessageType.HTML);
+    } else {
+      _addTheirMessage(text, MessageType.TEXT);
+    }
+  }
+
+  //Xử lý dữ liệu âm thanh do Google Api trả về
+  void onGoogleApiAudioResponse(List<int> audio) {
+    _playAudio(audio);
+  }
+
   Future<void> _initGoogleAssistant() async {
     _assistant = GoogleAssistantAPI(
-      onAudio: playAudio,
-      onText: _addTheirMessage,
+      onAudio: onGoogleApiAudioResponse,
+      onText: onGoogleApiTextResponse,
     );
     await _assistant.init();
   }
@@ -334,6 +355,7 @@ class _ChatScreenState extends State<ChatScreen> {
     if (_controller.text.isNotEmpty) {
       String text = _controller.text;
       _controller.clear();
+      _addMyMessage(text);
       _assistant.processing(text);
     }
   }

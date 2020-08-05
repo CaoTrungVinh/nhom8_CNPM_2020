@@ -19,6 +19,7 @@ class HomeScreen extends StatefulWidget {
     return _homeScreen();
   }
 }
+
 // trang chủ
 class _homeScreen extends State<HomeScreen> {
   @override
@@ -77,11 +78,11 @@ class _homeScreen extends State<HomeScreen> {
           Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [//nếu đã đăng nhập thì hiển thị tên tài khoản
+            children: [
+              //nếu đã đăng nhập thì hiển thị tên tài khoản
               isSignIn
                   ? FlatButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: Text(
                         _currentUser.displayName ?? '',
                         style: TextStyle(
@@ -90,7 +91,8 @@ class _homeScreen extends State<HomeScreen> {
                         ),
                       ),
                     )
-                  : FlatButton(// nếu chưa đăng nhập hiển thị đăng nhập
+                  : FlatButton(
+                      // nếu chưa đăng nhập hiển thị đăng nhập
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -185,9 +187,11 @@ class _loginScreen extends State<LoginScreen> {
   }
 
   Widget _buildBody() {
-    if (_currentUser != null) {//đăng nhập thành công trở về home
+    if (_currentUser != null) {
+      //đăng nhập thành công trở về home
 
-    } else { // đăng nhập thất bại gọi đăng nhập
+    } else {
+      // đăng nhập thất bại gọi đăng nhập
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -235,6 +239,7 @@ class _loginScreen extends State<LoginScreen> {
       );
     }
   }
+
   // đăng nhập tài khoản
   Future<void> _handleSignIn() async {
     try {
@@ -348,6 +353,7 @@ class _MySettingState extends State<SettingScreen> {
           )),
     );
   }
+
 //them mot dialog hoi nguoi dung co muon dang xuat that hay khong
   Future<void> _showDialog() async {
     return showDialog(
@@ -368,7 +374,7 @@ class _MySettingState extends State<SettingScreen> {
               onPressed: () {
                 _handleSignOut();
                 Navigator.of(context).pop();
-              } ,
+              },
             ),
             FlatButton(
               child: Text('Không'),
@@ -381,6 +387,7 @@ class _MySettingState extends State<SettingScreen> {
       },
     );
   }
+
   Future<void> _handleSignOut() async {
     try {
       await _googleSignIn.disconnect();
