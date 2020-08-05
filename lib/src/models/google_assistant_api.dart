@@ -51,15 +51,15 @@ class GoogleAssistantAPI {
 
     final deviceConfig = DeviceConfig()
       ..deviceId = 'default'
-      ..deviceModelId = 'default';
+      ..deviceModelId = 'assitant-d01338a2e907e-8567-4b06-9c38-049527d47c3e';
 
-    final dialogStateIn = DialogStateIn()..languageCode = 'en-US';
+    final dialogStateIn = DialogStateIn()..languageCode = 'en_US';
     if (_lastConversationState != null) {
       dialogStateIn.conversationState = _lastConversationState;
     }
 
     final screenOutConfig = ScreenOutConfig()
-      ..screenMode = ScreenOutConfig_ScreenMode.PLAYING;
+      ..screenMode = ScreenOutConfig_ScreenMode.OFF;
 
     final config = AssistConfig()
       ..audioOutConfig = audioOutConfig
@@ -117,6 +117,7 @@ class GoogleAssistantAPI {
         // supplementalDisplayText du lieu text ma gg tra ve
         if (response.dialogStateOut.supplementalDisplayText != null &&
             response.dialogStateOut.supplementalDisplayText.isNotEmpty) {
+          print("BHGHHBHBHB");
           text = response.dialogStateOut.supplementalDisplayText.trim();
         }
       }
@@ -133,7 +134,7 @@ class GoogleAssistantAPI {
           TextType.PLAIN,
         );
       } else if (htmlData.length != 0) {
-        print(utf8.decode(htmlData));
+        // print(utf8.decode(htmlData));
         onText(
           utf8.decode(htmlData),
           TextType.HTML,

@@ -326,6 +326,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void onGoogleApiTextResponse(String text, TextType type) {
     if (type == TextType.HTML) {
       _addTheirMessage(text, MessageType.HTML);
+      print(" HTML: " + text);
     } else {
       _addTheirMessage(text, MessageType.TEXT);
     }
