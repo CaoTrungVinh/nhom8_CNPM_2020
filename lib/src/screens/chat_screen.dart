@@ -77,6 +77,26 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  // phat ra audio
+  void _playAudio(List<int> audioData) {
+    if (audioData.length > 0) {
+      Audio.loadFromByteData(
+          ByteData.sublistView(Uint8List.fromList(audioData)))
+        ..play()
+        ..dispose();
+    }
+  }
+
+  //Xử lý dữ liệu văn bản do Google Api trả về
+  void onGoogleApiTextResponse(String text, TextType type) {
+    if (type == TextType.HTML) {
+      _addTheirMessage(text, MessageType.HTML);
+      print(" HTML: " + text);
+    } else {
+      _addTheirMessage(text, MessageType.TEXT);
+    }
+  }
+
   // thêm tin nhắn của API lên màn hình chat và save local
   Future<void> _addTheirMessage(
     String text, [
@@ -327,26 +347,6 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ],
     );
-  }
-
-  // phat ra audio
-  void _playAudio(List<int> audioData) {
-    if (audioData.length > 0) {
-      Audio.loadFromByteData(
-          ByteData.sublistView(Uint8List.fromList(audioData)))
-        ..play()
-        ..dispose();
-    }
-  }
-
-  //Xử lý dữ liệu văn bản do Google Api trả về
-  void onGoogleApiTextResponse(String text, TextType type) {
-    if (type == TextType.HTML) {
-      _addTheirMessage(text, MessageType.HTML);
-      print(" HTML: " + text);
-    } else {
-      _addTheirMessage(text, MessageType.TEXT);
-    }
   }
 
   //Xử lý dữ liệu âm thanh do Google Api trả về
