@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: (context) => SettingScreen(),
-                ), //gọi tới màn hình cài đặt
+                ), //gọi tới màn hình cài đặt - 1. chọn giao diện setting
               );
             }, //action cho button
           )
