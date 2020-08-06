@@ -88,6 +88,7 @@ class GoogleAssistantAPI {
     return null;
   }
 
+// xử lý dữ liệu
   void _handleAssistResponse(Stream<AssistResponse> conversation) async {
     List<int> audioData = List();
     List<int> htmlData = List();

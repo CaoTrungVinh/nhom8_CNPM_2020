@@ -65,6 +65,7 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
+// hiện thị tin nhắn lên màn hình
   Future showMess() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final messageData = prefs.getString("messages");
@@ -208,7 +209,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     suffixIcon: GestureDetector(
                       child: Icon(Icons.send),
                       onTap: () {
-                        _sendTextMessage();
+                        _sendTextMessage(); // người dùng gửi dữ liệu lên app
                       },
                     ),
                   ),
@@ -368,12 +369,16 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   //Xử lý text người dùng nhập vào
+// và hệ thống nhận được dữ liệu
   void _sendTextMessage() {
     if (_controller.text.isNotEmpty) {
       String text = _controller.text;
       _controller.clear();
-      _addMyMessage(text);
+      //Hệ thống gọi Google Assistant API
+//  xử lý dữ liệu vừa nhận được
       _assistant.processing(text);
+      // thêm dữ liệu lên màn hình chat
+      _addMyMessage(text);
     }
   }
 
