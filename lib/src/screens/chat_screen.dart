@@ -58,6 +58,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _init() async {
     await _initGoogleAssistant();
     await _speech.initialize(onError: showError);
+    // hien thi tin nhan len man hinh chat
     await showMess();
 
     setState(() {
