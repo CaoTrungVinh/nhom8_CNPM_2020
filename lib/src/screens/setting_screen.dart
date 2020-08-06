@@ -67,7 +67,7 @@ class SettingScreen extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(30, 350, 30, 0),
+              padding: const EdgeInsets.fromLTRB(30, 400, 30, 0),
               child: Column(
                 children: [
                   SizedBox(
