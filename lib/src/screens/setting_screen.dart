@@ -17,20 +17,20 @@ class SettingScreen extends StatelessWidget {
           style: TextStyle(
             fontSize: 15,
             color: Colors.black,
-          ),//phong chu, mau ,kich co cho title
-        ),// title cho app bar
+          ), //phong chu, mau ,kich co cho title
+        ), // title cho app bar
         centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
             color: Color(0xff2E3A59),
-          ),//dinh hinh cho icon va mau sac
+          ), //dinh hinh cho icon va mau sac
           onPressed: () {
             Navigator.of(context).pop();
-          },// them action icon back
+          }, // them action icon back
         ),
         backgroundColor: Colors.white,
-      ),// app bar setting
+      ), // app bar setting
       body: Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -66,41 +66,49 @@ class SettingScreen extends StatelessWidget {
                         )
                 ],
               ),
-            ),//padding 1
-            Padding(
-              padding: const EdgeInsets.fromLTRB(30, 400, 30, 0),
-              child: Column(
-                children: [
-                  SizedBox(
-                    width: double.infinity,
-                    height: 42,
-                    child: RaisedButton(
-                      color: Color(0xff1654B4),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      onPressed: () async {
-                        final res = await _showDialog(context); // 4.Hiển thị dialog hỏi người dùng có muốn đăng xuất
-                        if (res == true) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => HomeScreen(),
-                              //10b.Hiển thị trang chủ của ứng dụng sau khi đăng xuất
+            ), //padding 1
+            context.watch<AuthenticationProvider>().isSignedIn
+                ? Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 400, 30, 0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 42,
+                          child: RaisedButton(
+                            color: Color(0xff1654B4),
+                            shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            onPressed: () async {
+                              final res = await _showDialog(
+                                  context); // 4.Hiển thị dialog hỏi người dùng có muốn đăng xuất
+                              if (res == true) {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        HomeScreen(),
+                                    //10b.Hiển thị trang chủ của ứng dụng sau khi đăng xuất
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text(
+                              "Đăng xuất",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
-                          );
-                        }
-                      },
-                      child: Text(
-                        "Đăng xuất",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            )//padding 2 - 3. chọn button đăng xuất
-          ],// childrens
-        ),// child columns
-      ),//body
+                  ) //padding 2 - 3. chọn button đăng xuất
+                : ListTile(
+                    title: Text(''),
+                  )
+          ], // childrens
+        ), // child columns
+      ), //body
     );
   }
 
@@ -115,30 +123,32 @@ class SettingScreen extends StatelessWidget {
             child: ListBody(
               children: <Widget>[
                 Text('Bạn có thực sự muốn đăng xuất khỏi phiên làm việc'),
-              ],//text body cua dialog
-            ),// listbody
-          ),// singleChildScrollView
+              ], //text body cua dialog
+            ), // listbody
+          ), // singleChildScrollView
           actions: <Widget>[
             FlatButton(
-              child: Text('Huỷ bỏ'),// 5a.người dùng lựa chọn hủy bỏ
+              child: Text('Huỷ bỏ'), // 5a.người dùng lựa chọn hủy bỏ
               onPressed: () {
                 Navigator.of(context).pop(false);
-              },//add them action cho button
-            ),//button huy bo
+              }, //add them action cho button
+            ), //button huy bo
             FlatButton(
-              child: Text('Đăng xuất'),//5b. người dùng lựa chọn đồng ý đăng xuất
+              child: Text('Đăng xuất'),
+              //5b. người dùng lựa chọn đồng ý đăng xuất
               onPressed: () async {
-                await _handleSignOut(context);// goi phuong thuc handle sign out
+                await _handleSignOut(
+                    context); // goi phuong thuc handle sign out
                 Navigator.of(context).pop(true);
-              },//add them action cho button
-            ),// button dang xuat
-          ],//list cac actions gom 2 button
-        );//alert dialog
+              }, //add them action cho button
+            ), // button dang xuat
+          ], //list cac actions gom 2 button
+        ); //alert dialog
       },
     );
-  }// day la mot dialog hoi nguoi dung co muon dang xuat
+  } // day la mot dialog hoi nguoi dung co muon dang xuat
 
   Future<void> _handleSignOut(BuildContext context) async {
     await context.read<AuthenticationProvider>().logout();
-  }// goi phuong thuc logout() tu class authenticationProvider - 6b. yêu cầu api googleSignIn hủy bỏ access token
+  } // goi phuong thuc logout() tu class authenticationProvider - 6b. yêu cầu api googleSignIn hủy bỏ access token
 }

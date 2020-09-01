@@ -85,22 +85,17 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                if (!context.watch<AuthenticationProvider>().isSignedIn)
+                if (context.watch<AuthenticationProvider>().isSignedIn)
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ChatScreen(),
+                        ),
+                      );
+                    },
                     child: Text(
-                      'Đăng ký',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                if (!context.watch<AuthenticationProvider>().isSignedIn)
-                  FlatButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Quên mật khẩu',
+                      'Nói chuyện',
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.black,
@@ -109,22 +104,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 FlatButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ChatScreen(),
-                      ),
-                    );
+                    _showDialogExit(context);
                   },
-                  child: Text(
-                    'Nói chuyện',
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                FlatButton(
-                  onPressed: () => SystemNavigator.pop(),
                   child: Text(
                     'Thoát',
                     style: TextStyle(
@@ -138,6 +119,42 @@ class HomeScreen extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Future<bool> _showDialogExit(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('PoroPoro cảnh báo'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Bạn có thực sự muốn thoát'),
+              ], //text body cua dialog
+            ), // listbody
+          ), // singleChildScrollView
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Huỷ bỏ'),
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+            ),
+            FlatButton(
+              child: Text('Thoát'),
+              onPressed: () async {
+//                await _handleSignOut(
+//                    context); // goi phuong thuc handle sign out
+//                Navigator.of(context).pop(true);
+                SystemNavigator.pop();
+//                onPressed: () => SystemNavigator.pop(),
+              }, //add them action cho button
+            ),
+          ],
+        ); //alert dialog
+      },
     );
   }
 }
