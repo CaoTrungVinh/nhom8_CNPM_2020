@@ -6,6 +6,8 @@ import 'package:audiofileplayer/audiofileplayer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
+
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
@@ -195,6 +197,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   Icons.mic,
                   color: Color(0xff1654B4),
                 ),
+                // click button for listent
                 onTap: () async {
                   if (!_speech.isListening) {
                     await _speech.listen(
@@ -316,30 +319,36 @@ class _ChatScreenState extends State<ChatScreen> {
               Row(
                 children: <Widget>[
                   Container(
-                      constraints: BoxConstraints(
-                        maxWidth: MediaQuery.of(context).size.width - 120,
-                        // maxHeight: 500.0,
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width - 120,
+                      // maxHeight: 500.0,
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Color(0xffffffff),
+                      border: Border.all(
+                        color: Color(0xffE0E0E0),
+                        width: 1,
                       ),
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Color(0xffffffff),
-                        border: Border.all(
-                          color: Color(0xffE0E0E0),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: message.messageType == MessageType.TEXT
-                          ? Text(
-                              message.content,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color(0xff000000),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: message.messageType == MessageType.TEXT
+                        ? Text(
+                            message.content,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Color(0xff000000),
+                            ),
+                          )
+                        : Html(
+                            data: message.content,
+                            style: {
+                              "html": Style(
+                                fontSize: FontSize.xxSmall,
                               ),
-                            )
-                          : Html(
-                              data: message.content,
-                            )),
+                            },
+                          ),
+                  ),
                   Expanded(child: SizedBox(width: 120)),
                 ],
               ),
@@ -374,6 +383,7 @@ class _ChatScreenState extends State<ChatScreen> {
   void _sendTextMessage() {
     if (_controller.text.isNotEmpty) {
       String text = _controller.text;
+
       _controller.clear();
       //Hệ thống gọi Google Assistant API
 //  xử lý dữ liệu vừa nhận được

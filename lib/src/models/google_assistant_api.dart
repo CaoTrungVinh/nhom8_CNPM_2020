@@ -25,18 +25,25 @@ class GoogleAssistantAPI {
     this.onAudio,
   });
 
+  //Khởi tạo kết nối đến Google Assistant Service API
   Future<void> init() async {
+    //Authentication
+    //Nội dung sử dung
     final scopes = [
       'https://www.googleapis.com/auth/assistant-sdk-prototype',
     ];
+    //load key từ google
     final serviceAccount = await rootBundle.loadString('assets/key.json');
 
+    //Khởi tạo authenticator
     final authenticator = ServiceAccountAuthenticator(
       serviceAccount,
       scopes,
     );
 
+    //Khởi tạo 1 kênh kết nối đến gg
     final channel = ClientChannel('embeddedassistant.googleapis.com');
+    //Thực hiện kết nối thông qua kênh đã tạo
     _assistant = EmbeddedAssistantClient(
       channel,
       options: authenticator.toCallOptions,
@@ -44,6 +51,7 @@ class GoogleAssistantAPI {
   }
 
   AssistRequest _createAssistRequest(String text) {
+    //định dạng âm thanh trả về
     final audioOutConfig = AudioOutConfig()
       ..encoding = AudioOutConfig_Encoding.MP3
       ..sampleRateHertz = 24000
@@ -53,13 +61,13 @@ class GoogleAssistantAPI {
       ..deviceId = 'default'
       ..deviceModelId = 'assitant-d01338a2e907e-8567-4b06-9c38-049527d47c3e';
 
-    final dialogStateIn = DialogStateIn()..languageCode = 'en_US';
+    final dialogStateIn = DialogStateIn()..languageCode = 'en-US';
     if (_lastConversationState != null) {
       dialogStateIn.conversationState = _lastConversationState;
     }
 
     final screenOutConfig = ScreenOutConfig()
-      ..screenMode = ScreenOutConfig_ScreenMode.OFF;
+      ..screenMode = ScreenOutConfig_ScreenMode.PLAYING;
 
     final config = AssistConfig()
       ..audioOutConfig = audioOutConfig
@@ -79,6 +87,7 @@ class GoogleAssistantAPI {
     if (_assistant == null) return;
 
     if (text != null && text.isNotEmpty) {
+      print("Text Input: " + text);
       final request = _createAssistRequest(text);
       Stream<AssistResponse> responseStream =
           _assistant.assist(Stream.value(request));
@@ -118,7 +127,7 @@ class GoogleAssistantAPI {
         // supplementalDisplayText du lieu text ma gg tra ve
         if (response.dialogStateOut.supplementalDisplayText != null &&
             response.dialogStateOut.supplementalDisplayText.isNotEmpty) {
-          print("BHGHHBHBHB");
+          // print("BHGHHBHBHB");
           text = response.dialogStateOut.supplementalDisplayText.trim();
         }
       }
@@ -135,7 +144,6 @@ class GoogleAssistantAPI {
           TextType.PLAIN,
         );
       } else if (htmlData.length != 0) {
-        // print(utf8.decode(htmlData));
         onText(
           utf8.decode(htmlData),
           TextType.HTML,
